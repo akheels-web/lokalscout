@@ -39,6 +39,7 @@ class Settings(BaseSettings):
     # Overpass & Geocoding Endpoints
     OVERPASS_URL: str = os.getenv("OVERPASS_URL", "https://overpass-api.de/api/interpreter")
     NOMINATIM_URL: str = os.getenv("NOMINATIM_URL", "https://nominatim.openstreetmap.org/search")
+    NOMINATIM_REVERSE_URL: str = os.getenv("NOMINATIM_REVERSE_URL", "https://nominatim.openstreetmap.org/reverse")
 
     # Google Places API (New) for zero-cost competitor ratings and reviews
     GOOGLE_PLACES_API_KEY: str = os.getenv("GOOGLE_PLACES_API_KEY", "")

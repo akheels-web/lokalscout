@@ -31,7 +31,7 @@ REPORTS_CACHE: Dict[str, FeasibilityReport] = {}
 async def execute_feasibility_pipeline(req: FeasibilityRequest, force_unlocked: bool = False) -> FeasibilityReport:
     """Executes the full multi-stream data pipeline."""
     # 1. Resolve Location & Coordinates
-    location: LocationInfo = await resolve_location(req.locality, req.city)
+    location: LocationInfo = await resolve_location(req.locality, req.city, req.lat, req.lng)
     
     # 2. Extract Footfall Anchors (Overpass API + Curated Fallback)
     anchors = await extract_demand_anchors(location.coordinates, location.locality, location.city)

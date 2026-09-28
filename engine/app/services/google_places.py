@@ -28,13 +28,25 @@ VERTICAL_TO_GOOGLE_TYPES: Dict[str, List[str]] = {
     "gym": ["gym", "fitness_center"],
     "pharmacy": ["pharmacy", "drugstore"],
     "bakery": ["bakery"],
+    "pet_care": ["veterinary_care", "pet_store"],
+    "coworking": ["business_center", "real_estate_agency"],
+    "restaurant": ["restaurant", "bar"],
+    "apparel": ["clothing_store"],
+    "optician": ["optician", "store"],
+    "diagnostics": ["medical_lab", "doctor"],
+    "preschool": ["primary_school", "school"],
+    "auto_detailing": ["car_wash", "car_repair"],
+    "microbrewery": ["bar", "restaurant"],
+    "organic_grocery": ["supermarket", "grocery_store"],
+    "icecream_dessert": ["ice_cream_shop", "bakery"],
+    "generic": ["store", "point_of_interest"],
 }
 
 
 def _normalize_vertical(category_name: str) -> str:
     """Maps user-facing category strings to our internal vertical keys."""
     norm = category_name.lower()
-    if "dental" in norm or "clinic" in norm:
+    if "dental" in norm or "clinic" in norm or "dentist" in norm:
         return "dental"
     elif "salon" in norm or "spa" in norm or "beauty" in norm:
         return "salon"
@@ -44,9 +56,33 @@ def _normalize_vertical(category_name: str) -> str:
         return "gym"
     elif "pharmacy" in norm or "chemist" in norm:
         return "pharmacy"
-    elif "bakery" in norm or "patisserie" in norm:
+    elif "bakery" in norm or "patisserie" in norm or "cake" in norm:
         return "bakery"
-    return "coffee"
+    elif "pet" in norm or "vet" in norm or "animal" in norm:
+        return "pet_care"
+    elif "cowork" in norm or "office" in norm or "workspace" in norm:
+        return "coworking"
+    elif "brewery" in norm or "beer" in norm or "pub" in norm:
+        return "microbrewery"
+    elif "restaurant" in norm or "dine" in norm or "dining" in norm:
+        return "restaurant"
+    elif "fashion" in norm or "apparel" in norm or "cloth" in norm or "boutique" in norm:
+        return "apparel"
+    elif "optician" in norm or "eyewear" in norm or "glasses" in norm:
+        return "optician"
+    elif "diagnostic" in norm or "pathology" in norm or "lab" in norm:
+        return "diagnostics"
+    elif "preschool" in norm or "daycare" in norm or "kindergarten" in norm:
+        return "preschool"
+    elif "auto" in norm or "car" in norm or "detailing" in norm:
+        return "auto_detailing"
+    elif "organic" in norm or "grocery" in norm or "supermarket" in norm:
+        return "organic_grocery"
+    elif "ice cream" in norm or "dessert" in norm or "gelato" in norm:
+        return "icecream_dessert"
+    elif "coffee" in norm or "cafe" in norm:
+        return "coffee"
+    return "generic"
 
 
 def _haversine_km(lat1: float, lon1: float, lat2: float, lon2: float) -> float:

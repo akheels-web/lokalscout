@@ -58,6 +58,17 @@ The platform operates on a split-cloud, cost-optimized, low-latency architecture
 6. **Pharmacy & Chemist Store** (₹12L–₹30L Capex)
 7. **Boutique Bakery & Patisserie** (₹15L–₹30L Capex)
 8. **Pet Clinic & Grooming Lounge** (₹15L–₹35L Capex)
+9. **Boutique Coworking Space** (₹35L–₹70L Capex)
+10. **Fine Casual Dine-In Restaurant & Bar** (₹35L–₹80L Capex)
+11. **Boutique Fashion & Ethnic Wear** (₹20L–₹45L Capex)
+12. **Eyewear Store & Optometry** (₹15L–₹35L Capex)
+13. **Pathology & Diagnostic Lab** (₹25L–₹55L Capex)
+14. **Preschool & Early Daycare** (₹20L–₹45L Capex)
+15. **Automobile Detailing Studio** (₹18L–₹40L Capex)
+16. **Organic Grocery & Gourmet Mart** (₹20L–₹50L Capex)
+17. **Microbrewery & Craft Beer Taproom** (₹60L–₹1.5Cr Capex)
+18. **Artisanal Ice Cream & Dessert Parlor** (₹12L–₹25L Capex)
+19. **Custom Venture Support**: Founders can enter ANY concept (e.g. Pilates Studio, Board Game Cafe); the engine dynamically models unit economics, fit-out ratios, and searches commercial registries without breaking.
 
 ---
 
@@ -67,3 +78,12 @@ The platform operates on a split-cloud, cost-optimized, low-latency architecture
 - **Single Dossier (₹799)**: Full 10-section intelligence report + break-even calculator + downloadable PDF.
 - **Area Comparison (₹1,499)**: Side-by-side comparison of 2 or 3 micro-markets with trade-off score.
 - **GrowLokal Autopilot Upsell**: ₹1,000 credit toward ₹2,999/mo plan (Google 3-Pack setup, launch landing page, WhatsApp automation).
+
+---
+
+## 5. Frontend Sanitization & Micro-Market Intelligence Rules
+
+- **Zero Internal Provider/Vendor Exposure**: Never display internal vendor/tool names (`Cashfree`, `Overpass`, `OSM`, `Nominatim`, `FastAPI`, `SQLite`) to end users in UI copy, buttons, modals, or FAQ. Refer to payments as "Instant UPI & Card Checkout" / "Secure Payment Gateway" and data streams as "verified commercial registries", "spatial walking isochrones", and "real-time pedestrian footfall telemetry".
+- **Sub-Locality & Centroid Precision**: Scouting is not limited to macro-localities. Sub-markets (e.g. Ayyappa Society, Kavuri Hills, 100ft Road in Madhapur; Pali Hill in Bandra West; 12th Main in Indiranagar) are indexed.
+- **Physical GPS 1-Click Detection**: Browser GPS (`navigator.geolocation`) calls `GET /api/search/reverse?lat=...&lng=...` to reverse geocode physical coordinates into sub-localities on the fly, allowing founders physically auditing properties to audit the exact shopfront coordinates.
+

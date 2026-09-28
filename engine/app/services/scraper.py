@@ -113,12 +113,152 @@ FALLBACK_INSIGHTS: Dict[str, Dict[str, List[str]]] = {
             "Attractive display and ambiance",
         ],
     },
+    "pet_care": {
+        "complaints": [
+            "Stressful waiting room environment for anxious pets",
+            "Inflexible appointment booking for urgent checkups",
+            "High procedure and medicine markup fees",
+            "Lack of dedicated post-surgery recovery suites",
+        ],
+        "strengths": [
+            "Gentle, fear-free certified veterinary handling",
+            "Clean hygienic grooming and spa bays",
+            "Transparent diagnostics pricing",
+            "Holistic pet food and supplement retail",
+        ],
+    },
+    "coworking": {
+        "complaints": [
+            "Insufficient soundproof phone booths for video calls",
+            "Periodic Wi-Fi throttling during high-occupancy hours",
+            "Limited two-wheeler and four-wheeler visitor parking",
+            "Cramped breakout cafeteria during lunch rush",
+        ],
+        "strengths": [
+            "Redundant gigabit fiber leased-line internet",
+            "Ergonomic Herman Miller seating and standing desks",
+            "Vibrant founder networking events and workshops",
+            "24/7 biometric access with barista coffee station",
+        ],
+    },
+    "restaurant": {
+        "complaints": [
+            "Long table wait times exceeding 45 minutes on weekends",
+            "Inconsistent food preparation across busy shifts",
+            "Loud acoustic reverberation hindering conversation",
+            "Slow valet turnaround during peak checkout hours",
+        ],
+        "strengths": [
+            "Signature culinary recipes and fresh farm sourcing",
+            "Attentive and hospitable floor service staff",
+            "Aesthetic interior lighting and photogenic presentation",
+            "Curated beverage and artisanal cocktail program",
+        ],
+    },
+    "apparel": {
+        "complaints": [
+            "Limited size availability in popular styles",
+            "Long queue for trial rooms on weekend afternoons",
+            "Strict non-refundable exchange policies",
+            "Inattentive retail assistants during peak footfall",
+        ],
+        "strengths": [
+            "Curated designer collections and bespoke tailoring",
+            "Spacious, well-lit premium trial rooms",
+            "High-touch personal styling consultations",
+            "Seamless WhatsApp stock updates and home approvals",
+        ],
+    },
+    "optician": {
+        "complaints": [
+            "Delayed prescription spectacle delivery timelines",
+            "Limited warranty coverage on designer frames",
+            "Rushed eye examinations during evening rush",
+            "High pricing markup on anti-glare lens coatings",
+        ],
+        "strengths": [
+            "Automated precision Zeiss computerized refraction",
+            "Extensive portfolio of international luxury frames",
+            "Same-day 60-minute express lens cutting",
+            "Lifetime free ultrasonic frame adjustments",
+        ],
+    },
+    "diagnostics": {
+        "complaints": [
+            "Delayed digital lab report turnaround times",
+            "Inconvenient home sample collection morning slots",
+            "Rude front-desk billing and reception coordination",
+            "Painful phlebotomy vein puncture experience",
+        ],
+        "strengths": [
+            "NABL accredited automated barcoded laboratory analyzers",
+            "Gentle phlebotomists trained for pediatric patients",
+            "6-hour fast digital reports on WhatsApp & portal",
+            "Comprehensive annual health checkup packages",
+        ],
+    },
+    "preschool": {
+        "complaints": [
+            "Lack of live CCTV camera parent mobile streaming",
+            "High teacher-to-child student ratios in playgroups",
+            "Infrequent developmental milestone progress reports",
+            "Limited outdoor play and sports activity area",
+        ],
+        "strengths": [
+            "Holistic STEM and sensory play based curriculum",
+            "CCTV-monitored child-safe padded infrastructure",
+            "Nutritious in-house organic snack meal program",
+            "Passionate certified early-childhood educators",
+        ],
+    },
+    "auto_detailing": {
+        "complaints": [
+            "Swirl marks and incomplete ceramic buffing finishes",
+            "Unclear warranty terms on paint protection films (PPF)",
+            "Delayed vehicle delivery past committed turnaround",
+            "Inadequate dust-free indoor climate-controlled bays",
+        ],
+        "strengths": [
+            "Certified multi-stage paint correction masters",
+            "Dust-free negative-pressure climate bays",
+            "Authentic imported German coating products",
+            "Detailed video documentation of every process step",
+        ],
+    },
+    "microbrewery": {
+        "complaints": [
+            "Flat carbonation on experimental craft tap styles",
+            "Overly loud acoustic noise levels past 9 PM",
+            "Heavily inflated cover charges on weekend evenings",
+            "Slow kitchen appetizer delivery during peak rush",
+        ],
+        "strengths": [
+            "Fresh unpasteurized craft brews on 8 rotating taps",
+            "Spacious open-air garden patio ambiance",
+            "Accommodating staff offering complimentary taster trays",
+            "Curated wood-fired pizzas and pairing gastronomy",
+        ],
+    },
+    "generic": {
+        "complaints": [
+            "Limited parking availability for visitors",
+            "Slow customer billing and checkout reconciliation",
+            "Inconsistent service quality during peak rush",
+            "Lack of proactive customer communication",
+        ],
+        "strengths": [
+            "Prime convenient main-road accessibility",
+            "Hygienic, modern, and welcoming interior layout",
+            "Friendly customer support and personalized care",
+            "Competitive and transparent pricing structure",
+        ],
+    },
 }
 
 
 def _normalize_vertical_key(category_name: str) -> str:
     norm = category_name.lower()
-    if "dental" in norm or "clinic" in norm:
+    if "dental" in norm or "clinic" in norm or "dentist" in norm:
         return "dental"
     elif "salon" in norm or "spa" in norm or "beauty" in norm:
         return "salon"
@@ -128,9 +268,29 @@ def _normalize_vertical_key(category_name: str) -> str:
         return "gym"
     elif "pharmacy" in norm or "chemist" in norm:
         return "pharmacy"
-    elif "bakery" in norm or "patisserie" in norm:
+    elif "bakery" in norm or "patisserie" in norm or "cake" in norm:
         return "bakery"
-    return "coffee"
+    elif "pet" in norm or "vet" in norm or "animal" in norm:
+        return "pet_care"
+    elif "cowork" in norm or "office" in norm or "workspace" in norm:
+        return "coworking"
+    elif "brewery" in norm or "beer" in norm or "pub" in norm:
+        return "microbrewery"
+    elif "restaurant" in norm or "dine" in norm or "dining" in norm:
+        return "restaurant"
+    elif "fashion" in norm or "apparel" in norm or "cloth" in norm or "boutique" in norm:
+        return "apparel"
+    elif "optician" in norm or "eyewear" in norm or "glasses" in norm:
+        return "optician"
+    elif "diagnostic" in norm or "pathology" in norm or "lab" in norm:
+        return "diagnostics"
+    elif "preschool" in norm or "daycare" in norm or "kindergarten" in norm:
+        return "preschool"
+    elif "auto" in norm or "car" in norm or "detailing" in norm:
+        return "auto_detailing"
+    elif "coffee" in norm or "cafe" in norm:
+        return "coffee"
+    return "generic"
 
 
 async def analyze_competitor_density(

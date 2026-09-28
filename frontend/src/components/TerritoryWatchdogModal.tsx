@@ -109,7 +109,7 @@ export function TerritoryWatchdogModal({
             <div className="p-3.5 bg-slate-50 rounded-2xl border border-slate-200/80">
               <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Monitored Category</span>
               <div className="text-base font-bold text-slate-900 mt-0.5 truncate">{defaultCategory}</div>
-              <span className="text-xs text-slate-500">Real-time G-Maps & Overpass tags</span>
+              <span className="text-xs text-slate-500">Real-time commercial registries &amp; footfall radar</span>
             </div>
             <div className="p-3.5 bg-amber-50/60 rounded-2xl border border-amber-200/60">
               <span className="text-[11px] font-semibold text-amber-700 uppercase tracking-wider">Active Threat Signals</span>

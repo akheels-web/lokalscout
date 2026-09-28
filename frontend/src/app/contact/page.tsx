@@ -138,7 +138,7 @@ export default function ContactPage() {
                   <option value="Multi-Area Comparison">Multi-Area Comparative Matrix (₹1,499)</option>
                   <option value="Franchise Expansion Mapping">Enterprise Multi-Unit Franchise Territory Mapping</option>
                   <option value="GrowLokal Autopilot">GrowLokal Pre-Launch Autopilot (₹2,999/mo)</option>
-                  <option value="Custom Enterprise API">Custom GIS Overpass API &amp; Data Pipeline License</option>
+                  <option value="Custom Enterprise API">Custom Micro-Market GIS &amp; Footfall Data Pipeline License</option>
                 </select>
               </div>
 

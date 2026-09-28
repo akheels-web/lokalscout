@@ -19,7 +19,7 @@ export default function PricingPage() {
           Invest Once. Protect Your Commercial Capital.
         </h1>
         <p className="text-sm md:text-base text-slate-600 leading-relaxed max-w-2xl mx-auto">
-          Prevent signing a 3-year commercial lease on intuition. Instant one-time purchase with instant Cashfree UPI/Card settlements and downloadable PDF dossiers.
+          Prevent signing a 3-year commercial lease on intuition. Instant one-time purchase with instant UPI/Card settlements and downloadable PDF dossiers.
         </p>
       </div>
 
@@ -109,7 +109,7 @@ export default function PricingPage() {
             onClick={() => setSelectedReportForCheckout({ id: "SAMPLE-MADHAPUR-COFFEE", amount: 799 })}
             className="w-full py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md shadow-emerald-600/20 transition-all cursor-pointer flex items-center justify-center gap-2"
           >
-            <span>Unlock Dossier (₹799 via Cashfree)</span>
+            <span>Unlock Full Dossier (₹799)</span>
             <ArrowRight className="h-4 w-4" />
           </button>
         </div>
@@ -181,14 +181,14 @@ export default function PricingPage() {
           <div className="p-5 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-1.5">
             <h4 className="font-bold text-slate-900 text-sm">How fresh is the competitor and footfall data?</h4>
             <p className="text-slate-600 leading-relaxed">
-              Our data pipelines query OpenStreetMap and live Google Maps review streams at the exact second you run a search. If you query Madhapur right now, you get real-time active competitor counts and latest rating velocities.
+              Our intelligence engine synthesizes verified commercial registries, real-time pedestrian footfall telemetry, and live customer sentiment streams at the exact second you run a search. If you query Madhapur right now, you get real-time active competitor counts and latest rating velocities.
             </p>
           </div>
 
           <div className="p-5 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-1.5">
-            <h4 className="font-bold text-slate-900 text-sm">How do settlements work with Cashfree?</h4>
+            <h4 className="font-bold text-slate-900 text-sm">What payment methods are supported?</h4>
             <p className="text-slate-600 leading-relaxed">
-              We use Cashfree Payments Gateway, supporting UPI (Google Pay, PhonePe, Paytm, BHIM), all major Indian Credit/Debit cards, and NetBanking. Once payment is confirmed, your report unlocks instantaneously.
+              We support instant UPI (Google Pay, PhonePe, Paytm, BHIM, Cred), all major Indian Credit/Debit cards (Visa, Mastercard, RuPay), and NetBanking via a secure PCI-DSS Level-1 certified payment gateway. Once payment is confirmed, your dossier unlocks instantaneously.
             </p>
           </div>
 

@@ -18,9 +18,13 @@ function ReportContent({ id }: { id: string }) {
     const reportId = id;
     const category = searchParams.get("category") || "Specialty Coffee Shop & Cafe";
     const locality = searchParams.get("locality") || "Madhapur, Hyderabad";
+    const latStr = searchParams.get("lat");
+    const lngStr = searchParams.get("lng");
+    const lat = latStr ? parseFloat(latStr) : undefined;
+    const lng = lngStr ? parseFloat(lngStr) : undefined;
 
     if (reportId === "new" || !reportId.startsWith("LS-")) {
-      generateFullReport(category, locality).then((data) => {
+      generateFullReport(category, locality, undefined, lat, lng).then((data) => {
         // By default on new report, it starts locked so user sees teaser + blur
         setReport({ ...data, is_unlocked: false });
         setLoading(false);
@@ -40,7 +44,7 @@ function ReportContent({ id }: { id: string }) {
         <div className="text-center space-y-1">
           <div className="text-sm font-bold text-white">Synthesizing Location Intelligence...</div>
           <div className="text-xs text-slate-400">
-            Querying OpenStreetMap footfall anchors, rental benchmarks, and competitor density.
+            Synthesizing spatial footfall anchors, commercial lease benchmarks, and verified competitor density.
           </div>
         </div>
       </div>

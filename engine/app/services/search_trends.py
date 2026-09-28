@@ -88,12 +88,82 @@ VERTICAL_SEARCH_BASELINES: Dict[str, Dict[str, Any]] = {
         "specialty_suffix": "custom birthday cake same day delivery",
         "intent_weights": [1.3, 0.90, 2.5, 0.65],
     },
+    "pet_care": {
+        "base_searches": 2900,
+        "growth_yoy": "+41%",
+        "peak_season": "Year-round (Monthly grooming & vaccinations)",
+        "specialty_suffix": "veterinary clinic with pet grooming & emergency care",
+        "intent_weights": [1.4, 0.80, 2.6, 0.50],
+    },
+    "coworking": {
+        "base_searches": 4800,
+        "growth_yoy": "+36%",
+        "peak_season": "Quarterly corporate leasing & flexible day passes",
+        "specialty_suffix": "private office cabin & day pass near metro",
+        "intent_weights": [1.5, 1.10, 3.1, 0.70],
+    },
+    "restaurant": {
+        "base_searches": 6200,
+        "growth_yoy": "+28%",
+        "peak_season": "Weekends & Festive Season (October – January)",
+        "specialty_suffix": "dine in table reservation & craft cocktails",
+        "intent_weights": [1.6, 1.20, 3.4, 0.80],
+    },
+    "apparel": {
+        "base_searches": 4100,
+        "growth_yoy": "+25%",
+        "peak_season": "Wedding Season (Nov – Feb) & Festivals",
+        "specialty_suffix": "designer boutique & customized ethnic wear",
+        "intent_weights": [1.3, 0.85, 2.4, 0.55],
+    },
+    "optician": {
+        "base_searches": 2400,
+        "growth_yoy": "+19%",
+        "peak_season": "Year-round vision tests & screen-fatigue glasses",
+        "specialty_suffix": "computer glasses & computerized eye testing",
+        "intent_weights": [1.2, 0.75, 2.0, 0.40],
+    },
+    "diagnostics": {
+        "base_searches": 3800,
+        "growth_yoy": "+31%",
+        "peak_season": "Monsoon checkups & corporate annual screenings",
+        "specialty_suffix": "home blood sample collection with same day report",
+        "intent_weights": [1.4, 0.90, 2.7, 0.60],
+    },
+    "preschool": {
+        "base_searches": 3100,
+        "growth_yoy": "+24%",
+        "peak_season": "January – June (Academic Admissions)",
+        "specialty_suffix": "daycare with live cctv & playgroup admission",
+        "intent_weights": [1.3, 0.85, 2.2, 0.50],
+    },
+    "auto_detailing": {
+        "base_searches": 2600,
+        "growth_yoy": "+39%",
+        "peak_season": "Post-Monsoon & Pre-Diwali car protection",
+        "specialty_suffix": "ceramic coating & paint protection film ppf warranty",
+        "intent_weights": [1.3, 0.80, 2.5, 0.45],
+    },
+    "microbrewery": {
+        "base_searches": 5400,
+        "growth_yoy": "+33%",
+        "peak_season": "Friday – Sunday Evenings & IPL Season",
+        "specialty_suffix": "craft beer taproom & open air brewery",
+        "intent_weights": [1.5, 1.15, 3.3, 0.75],
+    },
+    "generic": {
+        "base_searches": 3000,
+        "growth_yoy": "+25%",
+        "peak_season": "Year-round commercial shopping",
+        "specialty_suffix": "near me with reviews & parking",
+        "intent_weights": [1.2, 0.80, 2.0, 0.50],
+    },
 }
 
 
 def _normalize_vertical_key(category_name: str) -> str:
     norm = category_name.lower()
-    if "dental" in norm or "clinic" in norm:
+    if "dental" in norm or "clinic" in norm or "dentist" in norm:
         return "dental"
     elif "salon" in norm or "spa" in norm or "beauty" in norm:
         return "salon"
@@ -103,9 +173,29 @@ def _normalize_vertical_key(category_name: str) -> str:
         return "gym"
     elif "pharmacy" in norm or "chemist" in norm:
         return "pharmacy"
-    elif "bakery" in norm or "patisserie" in norm:
+    elif "bakery" in norm or "patisserie" in norm or "cake" in norm:
         return "bakery"
-    return "coffee"
+    elif "pet" in norm or "vet" in norm or "animal" in norm:
+        return "pet_care"
+    elif "cowork" in norm or "office" in norm or "workspace" in norm:
+        return "coworking"
+    elif "brewery" in norm or "beer" in norm or "pub" in norm:
+        return "microbrewery"
+    elif "restaurant" in norm or "dine" in norm or "dining" in norm:
+        return "restaurant"
+    elif "fashion" in norm or "apparel" in norm or "cloth" in norm or "boutique" in norm:
+        return "apparel"
+    elif "optician" in norm or "eyewear" in norm or "glasses" in norm:
+        return "optician"
+    elif "diagnostic" in norm or "pathology" in norm or "lab" in norm:
+        return "diagnostics"
+    elif "preschool" in norm or "daycare" in norm or "kindergarten" in norm:
+        return "preschool"
+    elif "auto" in norm or "car" in norm or "detailing" in norm:
+        return "auto_detailing"
+    elif "coffee" in norm or "cafe" in norm:
+        return "coffee"
+    return "generic"
 
 
 def fetch_pytrends_interest(keyword: str, geo: str = "IN") -> Optional[int]:

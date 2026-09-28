@@ -40,7 +40,7 @@ export default function RootLayout({
                 <span>Now live across 120+ micro-markets in Hyderabad, Bengaluru, Mumbai, Pune &amp; Delhi-NCR</span>
               </div>
               <div className="hidden sm:flex items-center gap-4 text-emerald-200">
-                <span>Instant Cashfree UPI Settlements</span>
+                <span>Instant UPI &amp; Card Settlements</span>
                 <span>•</span>
                 <Link href="/sample" className="underline hover:text-white font-semibold">
                   Inspect Free Sample Dossier →
@@ -112,7 +112,7 @@ export default function RootLayout({
                   The hyperlocal location feasibility engine helping retail founders, clinic owners, and franchisees validate footfall, competition, and rent economics before signing commercial leases.
                 </p>
                 <div className="pt-2 text-xs text-slate-500 space-y-1">
-                  <div>Payments processed via <strong className="text-slate-800">Cashfree Payments Gateway</strong></div>
+                  <div>100% Secure Payments via <strong className="text-slate-800">Encrypted Banking Gateway</strong></div>
                   <div>Certified 256-Bit SSL • Instant GST Invoices</div>
                 </div>
               </div>

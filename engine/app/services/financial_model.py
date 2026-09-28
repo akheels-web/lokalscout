@@ -94,6 +94,114 @@ VERTICAL_BENCHMARKS: Dict[str, Dict[str, Any]] = {
         "monthly_staff_cost": 115000,
         "utilities_misc": 42000,
         "avg_ticket_size": 380,
+    },
+    "pet_care": {
+        "typical_sqft": 900,
+        "typical_capex": 2200000, # Grooming tables, surgical tools, cages
+        "cogs_pct": 0.22,
+        "staff_count": 4,
+        "monthly_staff_cost": 110000,
+        "utilities_misc": 35000,
+        "avg_ticket_size": 1200,
+    },
+    "coworking": {
+        "typical_sqft": 4500,
+        "typical_capex": 5500000, # Cabins, acoustic booths, enterprise networking
+        "cogs_pct": 0.08,
+        "staff_count": 5,
+        "monthly_staff_cost": 175000,
+        "utilities_misc": 85000,
+        "avg_ticket_size": 8500,
+    },
+    "restaurant": {
+        "typical_sqft": 2400,
+        "typical_capex": 5200000, # Commercial kitchen, HVAC, dining furniture
+        "cogs_pct": 0.32,
+        "staff_count": 12,
+        "monthly_staff_cost": 320000,
+        "utilities_misc": 75000,
+        "avg_ticket_size": 950,
+    },
+    "apparel": {
+        "typical_sqft": 1000,
+        "typical_capex": 2500000, # Trial rooms, display fixtures, inventory
+        "cogs_pct": 0.42,
+        "staff_count": 4,
+        "monthly_staff_cost": 95000,
+        "utilities_misc": 35000,
+        "avg_ticket_size": 2400,
+    },
+    "optician": {
+        "typical_sqft": 600,
+        "typical_capex": 1800000, # Autorefractor, lensmeter, frame displays
+        "cogs_pct": 0.35,
+        "staff_count": 3,
+        "monthly_staff_cost": 80000,
+        "utilities_misc": 25000,
+        "avg_ticket_size": 2200,
+    },
+    "diagnostics": {
+        "typical_sqft": 1000,
+        "typical_capex": 3800000, # Biochemistry analyzer, centrifuges, phlebotomy
+        "cogs_pct": 0.18,
+        "staff_count": 5,
+        "monthly_staff_cost": 160000,
+        "utilities_misc": 40000,
+        "avg_ticket_size": 1250,
+    },
+    "preschool": {
+        "typical_sqft": 2800,
+        "typical_capex": 3200000, # Child safety fitout, play zone, curriculum
+        "cogs_pct": 0.08,
+        "staff_count": 6,
+        "monthly_staff_cost": 150000,
+        "utilities_misc": 45000,
+        "avg_ticket_size": 6500,
+    },
+    "auto_detailing": {
+        "typical_sqft": 2000,
+        "typical_capex": 2600000, # Hydraulic lifts, pressure washers, ceramic bay
+        "cogs_pct": 0.25,
+        "staff_count": 5,
+        "monthly_staff_cost": 125000,
+        "utilities_misc": 40000,
+        "avg_ticket_size": 4200,
+    },
+    "organic_grocery": {
+        "typical_sqft": 1400,
+        "typical_capex": 2800000, # Racks, cold storage, initial shelf inventory
+        "cogs_pct": 0.68,
+        "staff_count": 5,
+        "monthly_staff_cost": 110000,
+        "utilities_misc": 45000,
+        "avg_ticket_size": 850,
+    },
+    "microbrewery": {
+        "typical_sqft": 4500,
+        "typical_capex": 9500000, # Fermentation tanks, brew kettle, chillers
+        "cogs_pct": 0.22,
+        "staff_count": 18,
+        "monthly_staff_cost": 480000,
+        "utilities_misc": 110000,
+        "avg_ticket_size": 1650,
+    },
+    "icecream_dessert": {
+        "typical_sqft": 500,
+        "typical_capex": 1600000, # Blast freezer, scooping counter, seating
+        "cogs_pct": 0.28,
+        "staff_count": 3,
+        "monthly_staff_cost": 70000,
+        "utilities_misc": 35000,
+        "avg_ticket_size": 280,
+    },
+    "generic_retail": {
+        "typical_sqft": 800,
+        "typical_capex": 2200000, # General commercial fitout & initial working capital
+        "cogs_pct": 0.35,
+        "staff_count": 4,
+        "monthly_staff_cost": 95000,
+        "utilities_misc": 32000,
+        "avg_ticket_size": 650,
     }
 }
 
@@ -130,10 +238,9 @@ def get_real_estate_benchmark(locality: str, vertical_keyword: str, city: str = 
         # Default Tier-1 commercial average
         rent_data = {"main_road": 115, "inner_lane": 65, "deposit_months": 6}
         
-    # Match vertical profile
-    v_key = "coffee"
+    # Match vertical profile intelligently
     norm_v = vertical_keyword.lower()
-    if "dental" in norm_v or "clinic" in norm_v or "health" in norm_v:
+    if "dental" in norm_v or "dentist" in norm_v:
         v_key = "dental"
     elif "salon" in norm_v or "spa" in norm_v or "beauty" in norm_v:
         v_key = "salon"
@@ -143,8 +250,34 @@ def get_real_estate_benchmark(locality: str, vertical_keyword: str, city: str = 
         v_key = "gym"
     elif "pharmacy" in norm_v or "chemist" in norm_v:
         v_key = "pharmacy"
-    elif "bakery" in norm_v or "cake" in norm_v:
+    elif "bakery" in norm_v or "cake" in norm_v or "pastry" in norm_v:
         v_key = "bakery"
+    elif "pet" in norm_v or "vet" in norm_v or "animal" in norm_v:
+        v_key = "pet_care"
+    elif "cowork" in norm_v or "office" in norm_v or "workspace" in norm_v:
+        v_key = "coworking"
+    elif "brewery" in norm_v or "beer" in norm_v or "pub" in norm_v or "bar" in norm_v:
+        v_key = "microbrewery"
+    elif "restaurant" in norm_v or "dine" in norm_v or "dining" in norm_v:
+        v_key = "restaurant"
+    elif "fashion" in norm_v or "apparel" in norm_v or "cloth" in norm_v or "boutique" in norm_v:
+        v_key = "apparel"
+    elif "optician" in norm_v or "eyewear" in norm_v or "glasses" in norm_v:
+        v_key = "optician"
+    elif "diagnostic" in norm_v or "pathology" in norm_v or "lab" in norm_v:
+        v_key = "diagnostics"
+    elif "preschool" in norm_v or "daycare" in norm_v or "kindergarten" in norm_v:
+        v_key = "preschool"
+    elif "auto" in norm_v or "car" in norm_v or "detailing" in norm_v:
+        v_key = "auto_detailing"
+    elif "organic" in norm_v or "grocery" in norm_v or "supermarket" in norm_v:
+        v_key = "organic_grocery"
+    elif "ice cream" in norm_v or "dessert" in norm_v or "gelato" in norm_v:
+        v_key = "icecream_dessert"
+    elif "coffee" in norm_v or "cafe" in norm_v:
+        v_key = "coffee"
+    else:
+        v_key = "generic_retail"
         
     v_profile = VERTICAL_BENCHMARKS[v_key]
     sqft = v_profile["typical_sqft"]

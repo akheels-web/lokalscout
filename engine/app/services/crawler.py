@@ -48,12 +48,24 @@ VERTICAL_TO_OSM_TAGS: Dict[str, str] = {
     "gym": '"leisure"~"fitness_centre|sports_centre"',
     "pharmacy": '"amenity"~"pharmacy"',
     "bakery": '"shop"~"bakery|pastry"',
+    "pet_care": '"amenity"~"veterinary"|"shop"~"pet"',
+    "coworking": '"amenity"~"coworking_space"|"office"~"coworking"',
+    "restaurant": '"amenity"~"restaurant|bar"',
+    "apparel": '"shop"~"clothes|boutique|fashion"',
+    "optician": '"shop"~"optician"',
+    "diagnostics": '"amenity"~"clinic|doctors|hospital"',
+    "preschool": '"amenity"~"kindergarten|childcare|school"',
+    "auto_detailing": '"shop"~"car_repair"|"amenity"~"car_wash"',
+    "microbrewery": '"amenity"~"pub|bar|restaurant"',
+    "organic_grocery": '"shop"~"supermarket|convenience|greengrocer"',
+    "icecream_dessert": '"shop"~"ice_cream"|"amenity"~"ice_cream|cafe"',
+    "generic": '"shop"~"retail"|"amenity"~"cafe|restaurant"',
 }
 
 
 def _normalize_vertical_key(category_name: str) -> str:
     norm = category_name.lower()
-    if "dental" in norm or "clinic" in norm:
+    if "dental" in norm or "clinic" in norm or "dentist" in norm:
         return "dental"
     elif "salon" in norm or "spa" in norm or "beauty" in norm:
         return "salon"
@@ -63,9 +75,33 @@ def _normalize_vertical_key(category_name: str) -> str:
         return "gym"
     elif "pharmacy" in norm or "chemist" in norm:
         return "pharmacy"
-    elif "bakery" in norm or "patisserie" in norm:
+    elif "bakery" in norm or "patisserie" in norm or "cake" in norm:
         return "bakery"
-    return "coffee"
+    elif "pet" in norm or "vet" in norm or "animal" in norm:
+        return "pet_care"
+    elif "cowork" in norm or "office" in norm or "workspace" in norm:
+        return "coworking"
+    elif "brewery" in norm or "beer" in norm or "pub" in norm:
+        return "microbrewery"
+    elif "restaurant" in norm or "dine" in norm or "dining" in norm:
+        return "restaurant"
+    elif "fashion" in norm or "apparel" in norm or "cloth" in norm or "boutique" in norm:
+        return "apparel"
+    elif "optician" in norm or "eyewear" in norm or "glasses" in norm:
+        return "optician"
+    elif "diagnostic" in norm or "pathology" in norm or "lab" in norm:
+        return "diagnostics"
+    elif "preschool" in norm or "daycare" in norm or "kindergarten" in norm:
+        return "preschool"
+    elif "auto" in norm or "car" in norm or "detailing" in norm:
+        return "auto_detailing"
+    elif "organic" in norm or "grocery" in norm or "supermarket" in norm:
+        return "organic_grocery"
+    elif "ice cream" in norm or "dessert" in norm or "gelato" in norm:
+        return "icecream_dessert"
+    elif "coffee" in norm or "cafe" in norm:
+        return "coffee"
+    return "generic"
 
 
 async def crawl_competitors_overpass(

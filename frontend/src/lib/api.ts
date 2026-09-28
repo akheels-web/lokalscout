@@ -21,18 +21,33 @@ export async function fetchLocations(query: string = ""): Promise<Array<{ locali
     console.warn("Using offline locations autocomplete:", err);
   }
 
-  // Built-in client fallback locations
+  // Built-in client fallback locations with sub-localities
   const fallback = [
     { locality: "Madhapur", city: "Hyderabad", state: "Telangana", pincode: "500081", label: "Madhapur, Hyderabad" },
+    { locality: "Ayyappa Society, Madhapur", city: "Hyderabad", state: "Telangana", pincode: "500081", label: "Ayyappa Society, Madhapur, Hyderabad" },
+    { locality: "Kavuri Hills, Madhapur", city: "Hyderabad", state: "Telangana", pincode: "500033", label: "Kavuri Hills, Madhapur, Hyderabad" },
+    { locality: "100ft Road, Madhapur", city: "Hyderabad", state: "Telangana", pincode: "500081", label: "100ft Road, Madhapur, Hyderabad" },
+    { locality: "Inorbit Mall Road, Madhapur", city: "Hyderabad", state: "Telangana", pincode: "500081", label: "Inorbit Mall Road, Madhapur, Hyderabad" },
     { locality: "Gachibowli", city: "Hyderabad", state: "Telangana", pincode: "500032", label: "Gachibowli, Hyderabad" },
+    { locality: "Financial District, Gachibowli", city: "Hyderabad", state: "Telangana", pincode: "500032", label: "Financial District, Gachibowli, Hyderabad" },
     { locality: "Jubilee Hills", city: "Hyderabad", state: "Telangana", pincode: "500033", label: "Jubilee Hills, Hyderabad" },
+    { locality: "Road No 36, Jubilee Hills", city: "Hyderabad", state: "Telangana", pincode: "500033", label: "Road No 36, Jubilee Hills, Hyderabad" },
+    { locality: "Banjara Hills", city: "Hyderabad", state: "Telangana", pincode: "500034", label: "Banjara Hills, Hyderabad" },
+    { locality: "Kondapur", city: "Hyderabad", state: "Telangana", pincode: "500084", label: "Kondapur, Hyderabad" },
     { locality: "Indiranagar", city: "Bengaluru", state: "Karnataka", pincode: "560038", label: "Indiranagar, Bengaluru" },
+    { locality: "100ft Road, Indiranagar", city: "Bengaluru", state: "Karnataka", pincode: "560038", label: "100ft Road, Indiranagar, Bengaluru" },
+    { locality: "12th Main Road, Indiranagar", city: "Bengaluru", state: "Karnataka", pincode: "560038", label: "12th Main Road, Indiranagar, Bengaluru" },
     { locality: "Koramangala", city: "Bengaluru", state: "Karnataka", pincode: "560034", label: "Koramangala, Bengaluru" },
+    { locality: "Koramangala 4th Block", city: "Bengaluru", state: "Karnataka", pincode: "560034", label: "Koramangala 4th Block, Bengaluru" },
     { locality: "HSR Layout", city: "Bengaluru", state: "Karnataka", pincode: "560102", label: "HSR Layout, Bengaluru" },
     { locality: "Bandra West", city: "Mumbai", state: "Maharashtra", pincode: "400050", label: "Bandra West, Mumbai" },
+    { locality: "Pali Hill, Bandra West", city: "Mumbai", state: "Maharashtra", pincode: "400050", label: "Pali Hill, Bandra West, Mumbai" },
     { locality: "Andheri West", city: "Mumbai", state: "Maharashtra", pincode: "400053", label: "Andheri West, Mumbai" },
+    { locality: "Lokhandwala, Andheri West", city: "Mumbai", state: "Maharashtra", pincode: "400053", label: "Lokhandwala, Andheri West, Mumbai" },
     { locality: "DLF Cyber City", city: "Gurugram", state: "Haryana", pincode: "122002", label: "DLF Cyber City, Gurugram" },
+    { locality: "Cyber Hub, Gurugram", city: "Gurugram", state: "Haryana", pincode: "122002", label: "Cyber Hub, Gurugram" },
     { locality: "Baner", city: "Pune", state: "Maharashtra", pincode: "411045", label: "Baner, Pune" },
+    { locality: "Baner High Street, Pune", city: "Pune", state: "Maharashtra", pincode: "411045", label: "Baner High Street, Pune" },
   ];
 
   return fallback.filter(
@@ -43,16 +58,45 @@ export async function fetchLocations(query: string = ""): Promise<Array<{ locali
   );
 }
 
+export async function reverseGeocodeLocation(lat: number, lng: number): Promise<{
+  locality: string;
+  city: string;
+  state: string;
+  pincode: string;
+  formatted_address: string;
+}> {
+  try {
+    const res = await fetch(`${API_BASE_URL}/search/reverse?lat=${lat}&lng=${lng}`, {
+      cache: "no-store",
+    });
+    if (res.ok) {
+      return await res.json();
+    }
+  } catch (err) {
+    console.warn("Reverse geocode engine offline, using client fallback:", err);
+  }
+
+  return {
+    locality: "Detected Location",
+    city: "Hyderabad",
+    state: "Telangana",
+    pincode: "500081",
+    formatted_address: `GPS: ${lat.toFixed(4)}, ${lng.toFixed(4)}`,
+  };
+}
+
 export async function generatePreview(
   category: string,
   locality: string,
-  city?: string
+  city?: string,
+  lat?: number,
+  lng?: number
 ): Promise<FeasibilityPreview> {
   try {
     const res = await fetch(`${API_BASE_URL}/feasibility/preview`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ category, locality, city }),
+      body: JSON.stringify({ category, locality, city, lat, lng }),
     });
     if (res.ok) {
       return await res.json();
@@ -84,13 +128,15 @@ export async function generatePreview(
 export async function generateFullReport(
   category: string,
   locality: string,
-  city?: string
+  city?: string,
+  lat?: number,
+  lng?: number
 ): Promise<FeasibilityReport> {
   try {
     const res = await fetch(`${API_BASE_URL}/feasibility/generate`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ category, locality, city }),
+      body: JSON.stringify({ category, locality, city, lat, lng }),
     });
     if (res.ok) {
       return await res.json();

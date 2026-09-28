@@ -60,7 +60,7 @@ export default function HomePage() {
     },
     {
       q: "Where does your footfall and competitor data come from?",
-      a: "We aggregate over 25 spatial signals including OpenStreetMap road networks, pedestrian walking isochrones (5-min & 10-min catchments), Google Maps competitor profiles, customer sentiment mined from 1–3 star public reviews, and actual commercial lease transactions across 120+ Indian micro-markets.",
+      a: "We aggregate over 25 spatial signals including high-resolution pedestrian walking isochrones (5-min & 10-min catchments), verified micro-market competitor density, customer sentiment mined from public reviews, transit hubs, and actual commercial lease transactions across 120+ Indian micro-markets.",
     },
     {
       q: "Can I use this feasibility report for bank loans or franchise approval?",
@@ -116,7 +116,7 @@ export default function HomePage() {
           </div>
           <div className="flex items-center gap-2">
             <CheckCircle2 className="h-4 w-4 text-emerald-600" />
-            <span>Cashfree Instant UPI Checkout</span>
+            <span>Instant UPI &amp; Card Checkout</span>
           </div>
         </div>
       </section>
@@ -570,7 +570,7 @@ export default function HomePage() {
             Pay Only When You Scout. Zero Subscription Traps.
           </h2>
           <p className="text-sm text-slate-600">
-            Instant UPI &amp; Card settlements via Cashfree Payments. Tax invoices included.
+            Instant UPI, Card &amp; NetBanking settlements. Tax invoices included.
           </p>
         </div>
 
@@ -653,7 +653,7 @@ export default function HomePage() {
               href="#search-section"
               className="w-full py-3.5 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs text-center transition-colors block shadow-md shadow-emerald-600/20"
             >
-              Get Full Dossier (₹799 via Cashfree)
+              Get Complete Dossier (₹799)
             </Link>
           </div>
 

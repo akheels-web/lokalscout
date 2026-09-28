@@ -97,7 +97,7 @@ export function TeaserModal({
             <ArrowRight className="h-4 w-4" />
           </button>
           <div className="text-center text-xs text-slate-500 font-medium">
-            Preliminary scan is free • Full report unlock at ₹799 via Cashfree Payments
+            Preliminary scan is free • Instant full report unlock at ₹799 (UPI / Cards / NetBanking)
           </div>
         </div>
       </div>

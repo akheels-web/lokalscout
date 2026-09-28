@@ -184,7 +184,7 @@ export function ReportDashboard({
               </span>
             </div>
             <p className="text-slate-600 font-sans text-xs mt-0.5">
-              Live automated surveillance detects competitor lease signings, Google Maps profile creation &amp; customer rating shocks within 2 km.
+              Live automated surveillance detects competitor lease signings, new local registry listings & customer rating shocks within 2 km.
             </p>
           </div>
         </div>
@@ -304,7 +304,7 @@ export function ReportDashboard({
               02. Competitor Saturation Audit (2 km Buffer)
             </h2>
             <p className="text-slate-500 font-sans text-xs mt-0.5">
-              Identified direct competing units harvested from Google Maps &amp; OSM spatial tags.
+              Identified direct competing units mapped from verified commercial registries &amp; micro-market footprints.
             </p>
           </div>
           <span className="text-slate-500">
@@ -399,12 +399,12 @@ export function ReportDashboard({
                   onClick={() => setShowCashfreeModal(true)}
                   className="w-full py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm rounded-xl shadow-lg shadow-emerald-600/20 flex items-center justify-center gap-2 transition-all cursor-pointer"
                 >
-                  <span>Unlock for ₹799 via Cashfree PG</span>
+                  <span>Unlock Full Dossier for ₹799</span>
                   <ArrowRight className="h-4 w-4" />
                 </button>
                 <div className="text-[11px] text-slate-500 flex items-center justify-center gap-2">
                   <ShieldCheck className="h-3.5 w-3.5 text-emerald-600" />
-                  <span>Instant UPI, Cards &amp; NetBanking via Cashfree</span>
+                  <span>Instant UPI, Cards &amp; NetBanking • 256-Bit Encrypted</span>
                 </div>
               </div>
             </div>
@@ -419,7 +419,7 @@ export function ReportDashboard({
             <div className="p-5 rounded-xl bg-white border border-slate-200 shadow-xs space-y-4 font-mono">
               <div className="flex items-center justify-between text-xs text-slate-500 uppercase font-bold">
                 <span>04. TRUE PEDESTRIAN WALKSHED &amp; DEMAND ANCHORS</span>
-                <span className="text-emerald-700">OSM ISOCHRONES</span>
+                <span className="text-emerald-700">SPATIAL ISOCHRONES</span>
               </div>
 
               {/* Isochrone Catchment Mode Tabs */}
@@ -647,7 +647,7 @@ export function ReportDashboard({
             <div className="p-5 rounded-xl bg-white border border-slate-200 shadow-xs space-y-3 font-mono">
               <div className="flex items-center justify-between text-xs text-slate-500 uppercase font-bold">
                 <span>06. HIGH-INTENT LOCAL SEARCH SIGNALS</span>
-                <span className="text-emerald-700">GOOGLE MAPS VELOCITY</span>
+                <span className="text-emerald-700">LOCAL SEARCH VELOCITY</span>
               </div>
               <div className="space-y-2 text-xs">
                 {report.search_intent.map((s, idx) => (
