@@ -15,3 +15,4 @@
   - `/sample` (Full reference report for Madhapur coffee)
   - `/compare` (Multi-area side-by-side comparison)
   - `/report/[id]` (10-section dossier with free teaser and Cashfree unlock)
+- **Corporate Documentation**: Comprehensive corporate `README.md` created with institutional positioning, macro market dynamics, split-cloud Mermaid diagrams, Cashfree drop-in payment workflow, 8 commercial retail verticals, REST API reference, and enterprise governance.

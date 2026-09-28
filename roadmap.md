@@ -67,9 +67,10 @@
   - Webhook verification for automated report unlocking and PDF generation
 
 ### Milestone 4: Retention, Viral Sharing & GrowLokal Upsell Bridge
-- [ ] "Opening in 60 Days" GrowLokal Autopilot CTA card with ₹1,000 credit promo code
-- [ ] Lead capture modal for WhatsApp/Email alert when competitor opens in tracked pin code
-- [ ] Docker, docker-compose, and Caddyfile configuration for seamless VPS deployment
+- [x] "Opening in 60 Days" GrowLokal Autopilot CTA card with ₹1,000 credit promo code (`LOKALSCOUT1000` in `ReportDashboard.tsx`)
+- [x] Lead capture modal for WhatsApp/Email alert when competitor opens in tracked pin code
+- [x] Docker, docker-compose, and Caddyfile configuration for seamless VPS deployment
+- [x] Institutional corporate README with system architecture, data pipelines, and Cashfree integration
 
 ---
 
