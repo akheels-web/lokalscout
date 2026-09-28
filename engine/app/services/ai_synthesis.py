@@ -14,6 +14,7 @@ from ..models.schemas import (
     BreakEvenCalculator,
     LocationInfo,
 )
+from ..services.search_trends import ensure_search_trends_data
 
 logger = logging.getLogger(__name__)
 
@@ -30,6 +31,8 @@ async def synthesize_executive_intelligence(
     gaps, commute windows, and actionable recommendations.
     Uses Google Gemini Flash if API key is provided, with rock-solid heuristic fallback.
     """
+    # Fetch real/cached localized search intent trends
+    search_trends = await ensure_search_trends_data(location.locality, location.city, vertical)
     # Try calling Google Gemini API if key is available
     if settings.GEMINI_API_KEY:
         try:
@@ -77,7 +80,9 @@ Return ONLY valid JSON matching this structure:
                     resp_json = res.json()
                     content_str = resp_json["candidates"][0]["content"]["parts"][0]["text"]
                     parsed = json.loads(content_str)
-                    return build_full_intelligence_package(parsed, vertical, location, competitors, real_estate, break_even)
+                    return build_full_intelligence_package(
+                        parsed, vertical, location, competitors, real_estate, break_even, search_trends=search_trends
+                    )
         except Exception as e:
             logger.warning(f"Gemini API synthesis fallback triggered: {str(e)}")
 
@@ -128,8 +133,15 @@ Return ONLY valid JSON matching this structure:
             )
         ]
     }
-    
-    return build_full_intelligence_package(parsed, vertical, location, competitors, real_estate, break_even)
+    return build_full_intelligence_package(
+        base=parsed,
+        vertical=vertical,
+        location=location,
+        competitors=competitors,
+        real_estate=real_estate,
+        break_even=break_even,
+        search_trends=search_trends
+    )
 
 def build_full_intelligence_package(
     base: Dict[str, Any],
@@ -137,7 +149,8 @@ def build_full_intelligence_package(
     location: LocationInfo,
     competitors: CompetitorAnalysis,
     real_estate: RealEstateBenchmark,
-    break_even: BreakEvenCalculator
+    break_even: BreakEvenCalculator,
+    search_trends: List[SearchIntentTrend] = None
 ) -> Dict[str, Any]:
     """Assembles all sections into complete verified intelligence response."""
     
@@ -169,33 +182,36 @@ def build_full_intelligence_package(
         )
     ]
     
-    # 6. Local Search Intent & Demand Signals
-    search_intent = [
-        SearchIntentTrend(
-            keyword=f"best {vertical.lower()} near me in {location.locality.lower()}",
-            monthly_searches=4800,
-            growth_yoy="+34%",
-            commercial_intent="Very High"
-        ),
-        SearchIntentTrend(
-            keyword=f"{vertical.lower()} {location.locality.lower()} menu prices",
-            monthly_searches=2900,
-            growth_yoy="+28%",
-            commercial_intent="High"
-        ),
-        SearchIntentTrend(
-            keyword=f"top rated {vertical.lower()} {location.city.lower()}",
-            monthly_searches=8400,
-            growth_yoy="+41%",
-            commercial_intent="Very High"
-        ),
-        SearchIntentTrend(
-            keyword=f"work friendly {vertical.lower()} {location.locality.lower()} wifi",
-            monthly_searches=1650,
-            growth_yoy="+62%",
-            commercial_intent="High"
-        )
-    ]
+    # 6. Local Search Intent & Demand Signals (Real / Cached)
+    if search_trends:
+        search_intent = search_trends
+    else:
+        search_intent = [
+            SearchIntentTrend(
+                keyword=f"best {vertical.lower()} near me in {location.locality.lower()}",
+                monthly_searches=4800,
+                growth_yoy="+34%",
+                commercial_intent="Very High"
+            ),
+            SearchIntentTrend(
+                keyword=f"{vertical.lower()} {location.locality.lower()} menu prices",
+                monthly_searches=2900,
+                growth_yoy="+28%",
+                commercial_intent="High"
+            ),
+            SearchIntentTrend(
+                keyword=f"top rated {vertical.lower()} {location.city.lower()}",
+                monthly_searches=8400,
+                growth_yoy="+41%",
+                commercial_intent="Very High"
+            ),
+            SearchIntentTrend(
+                keyword=f"work friendly {vertical.lower()} {location.locality.lower()} wifi",
+                monthly_searches=1650,
+                growth_yoy="+62%",
+                commercial_intent="High"
+            )
+        ]
     
     # Strategic Gaps formatting
     gaps = base.get("strategic_gaps", [])

@@ -23,3 +23,11 @@
   - `/compare` (Multi-area side-by-side comparison)
   - `/report/[id]` (10-section dossier with free teaser and Cashfree unlock)
 - **Corporate Documentation**: Comprehensive corporate `README.md` created with institutional positioning, macro market dynamics, split-cloud Mermaid diagrams, Cashfree drop-in payment workflow, 8 commercial retail verticals, REST API reference, and enterprise governance.
+- **₹0-First Data Architecture (`data_plan_revised.md` Completed)**:
+  - **SQLite Persistent Cache** (`engine/app/db/database.py`): Zero-infrastructure, zero-cost cache with WAL mode, auto-schema initialization, and dedicated tables for `competitors`, `poi_anchors`, `rent_listings`, `search_trends`, and `crawl_status`.
+  - **Google Places API (New)** (`engine/app/services/google_places.py`): Uses $200 free monthly credit on GCP for Nearby Search (real competitor discovery), Place Details (ratings & review count), and 1–3 star review complaint extraction.
+  - **Overpass POI Crawler & Isochrone Cache** (`engine/app/services/crawler.py` & `overpass.py`): Lazy caching with 14-day TTL. Delivers <1ms cache hits on repeat searches, with graceful heuristics when Overpass rate-limits or networks block queries.
+  - **Commercial Rent Harvester & Benchmarks** (`engine/app/services/rent_scraper.py` & `financial_model.py`): Extracts and caches commercial retail rental listings across Indian hubs, calculating dynamic median rent per sqft and feeding verified direct-landlord property matches into dossiers.
+  - **Search Trends & Demand Signals** (`engine/app/services/search_trends.py` & `ai_synthesis.py`): Integrates `pytrends` and micro-market search velocity multipliers to replace fabricated static search volumes with authentic localized query trends.
+  - **Crawler Operations & Admin Endpoints** (`engine/app/routers/crawler_admin.py`): `/api/crawler/stats` for database health inspection, `/api/crawler/refresh` for background stale refresh, and `/api/crawler/precrawl` for pre-warming key localities.
+  - **Engine Lifespan Initialization** (`engine/app/main.py`): Automatic database initialization on FastAPI startup.

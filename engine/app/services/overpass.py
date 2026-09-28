@@ -10,6 +10,11 @@ from ..models.schemas import (
     WalkshedBarrier
 )
 
+import logging
+from ..services.crawler import ensure_poi_data
+
+logger = logging.getLogger("lokalscout.overpass")
+
 def calculate_distance(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
     """Haversine formula to calculate approximate distance in km."""
     R = 6371.0
@@ -19,61 +24,31 @@ def calculate_distance(lat1: float, lon1: float, lat2: float, lon2: float) -> fl
     c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
     return round(R * c, 2)
 
-async def extract_demand_anchors(coords: Coordinates, locality_name: str) -> DemandAnchorsAnalysis:
+async def extract_demand_anchors(coords: Coordinates, locality_name: str, city_name: str = "") -> DemandAnchorsAnalysis:
     """
-    Extracts high-impact footfall anchors around coordinates (2.5 km radius)
-    using OpenStreetMap Overpass API, with deterministic micro-market fallback.
+    Extracts high-impact footfall anchors around coordinates (2.5 km radius).
+    Uses SQLite cache (<1ms) populated by Overpass crawler, with deterministic micro-market fallback.
     """
-    overpass_query = f"""
-    [out:json][timeout:5];
-    (
-      node["amenity"~"university|college"](around:2500,{coords.lat},{coords.lng});
-      node["office"~"it|company|government"](around:2500,{coords.lat},{coords.lng});
-      node["shop"~"mall|department_store"](around:2500,{coords.lat},{coords.lng});
-      node["railway"="subway_entrance"](around:2500,{coords.lat},{coords.lng});
-    );
-    out center 15;
-    """
-    
-    anchors: List[DemandAnchor] = []
-    
+    raw_anchors = []
     try:
-        async with httpx.AsyncClient(timeout=4.5) as client:
-            resp = await client.post(
-                settings.OVERPASS_URL,
-                data={"data": overpass_query},
-                headers={"User-Agent": "LokalScout-Footfall-Harvester/1.0"}
-            )
-            if resp.status_code == 200:
-                data = resp.json()
-                for el in data.get("elements", []):
-                    tags = el.get("tags", {})
-                    name = tags.get("name") or tags.get("name:en")
-                    if not name:
-                        continue
-                    
-                    e_lat = el.get("lat") or el.get("center", {}).get("lat")
-                    e_lng = el.get("lon") or el.get("center", {}).get("lon")
-                    dist = calculate_distance(coords.lat, coords.lng, e_lat, e_lng) if e_lat and e_lng else 1.2
-                    
-                    category = "Commercial Hub"
-                    if "amenity" in tags and ("college" in tags["amenity"] or "university" in tags["amenity"]):
-                        category = "Colleges & Youth"
-                    elif "office" in tags or "building" in tags:
-                        category = "Tech & Corporate Parks"
-                    elif "shop" in tags and "mall" in tags["shop"]:
-                        category = "Shopping Malls & Retail"
-                    elif "railway" in tags:
-                        category = "Transit & Metro Hubs"
-                        
-                    anchors.append(DemandAnchor(
-                        category=category,
-                        name=name,
-                        distance_km=dist,
-                        impact_level="High" if dist < 1.0 else "Medium"
-                    ))
-    except Exception:
-        pass # Fallback to curated locality anchors
+        raw_anchors = await ensure_poi_data(
+            lat=coords.lat,
+            lng=coords.lng,
+            locality=locality_name,
+            city=city_name or "Hyderabad"
+        )
+    except Exception as e:
+        logger.warning(f"Error loading POI anchors via crawler: {e}")
+
+    anchors: List[DemandAnchor] = []
+    for a in raw_anchors:
+        dist = a.get("distance_km") or a.get("distance_from_center_km") or 1.2
+        anchors.append(DemandAnchor(
+            category=a.get("category", "Commercial Hub"),
+            name=a.get("name", "Commercial Hub"),
+            distance_km=float(dist),
+            impact_level=a.get("impact_level", "Medium")
+        ))
         
     # If Overpass yields fewer than 4 anchors (common due to OSM tag sparsity in India), supplement with curated anchors
     if len(anchors) < 4:

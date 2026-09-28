@@ -40,6 +40,12 @@ class Settings(BaseSettings):
     OVERPASS_URL: str = os.getenv("OVERPASS_URL", "https://overpass-api.de/api/interpreter")
     NOMINATIM_URL: str = os.getenv("NOMINATIM_URL", "https://nominatim.openstreetmap.org/search")
 
+    # Google Places API (New) for zero-cost competitor ratings and reviews
+    GOOGLE_PLACES_API_KEY: str = os.getenv("GOOGLE_PLACES_API_KEY", "")
+    
+    # SQLite Database Cache Path
+    LOKALSCOUT_DB_PATH: str = os.getenv("LOKALSCOUT_DB_PATH", "")
+
     class Config:
         env_file = ".env"
         extra = "ignore"

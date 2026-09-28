@@ -11,6 +11,7 @@ from ..models.schemas import (
 from ..services.geocoding import resolve_location
 from ..services.overpass import extract_demand_anchors, calculate_isochrone_walkshed
 from ..services.scraper import analyze_competitor_density
+from ..services.rent_scraper import ensure_rent_data
 from ..services.financial_model import (
     get_real_estate_benchmark,
     calculate_breakeven,
@@ -33,15 +34,16 @@ async def execute_feasibility_pipeline(req: FeasibilityRequest, force_unlocked: 
     location: LocationInfo = await resolve_location(req.locality, req.city)
     
     # 2. Extract Footfall Anchors (Overpass API + Curated Fallback)
-    anchors = await extract_demand_anchors(location.coordinates, location.locality)
+    anchors = await extract_demand_anchors(location.coordinates, location.locality, location.city)
     
     # 3. Analyze Competitor Saturation & Sentiment
     competitors = await analyze_competitor_density(
         req.category, location.locality, location.city, location.coordinates
     )
     
-    # 4. Calculate Real Estate & Break-Even Economics
-    real_estate, v_profile = get_real_estate_benchmark(location.locality, req.category)
+    # 4. Harvest / Load Real Commercial Rent Listings & Economics
+    await ensure_rent_data(location.locality, location.city)
+    real_estate, v_profile = get_real_estate_benchmark(location.locality, req.category, location.city)
     break_even = calculate_breakeven(real_estate, v_profile)
     
     # 4b. Calculate Advanced Spatial & Growth Modules
@@ -50,7 +52,7 @@ async def execute_feasibility_pipeline(req: FeasibilityRequest, force_unlocked: 
     fitout = calculate_fitout_breakdown(real_estate.typical_carpet_area_sqft, req.category)
     sandbox = generate_google_sandbox_preview(req.category, location.locality)
     matched_props = get_matched_commercial_properties(
-        location.locality, real_estate.typical_carpet_area_sqft, real_estate.monthly_rental_estimate_main_road
+        location.locality, real_estate.typical_carpet_area_sqft, real_estate.monthly_rental_estimate_main_road, location.city
     )
     
     # 5. Gemini Flash / Algorithmic Executive Intelligence Synthesis

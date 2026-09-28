@@ -1,16 +1,27 @@
 import logging
+import contextlib
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from .config import settings
-from .routers import search, feasibility, compare, payments, watchdog
+from .db.database import init_database
+from .routers import search, feasibility, compare, payments, watchdog, crawler_admin
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(name)s: %(message)s")
 logger = logging.getLogger("lokalscout")
 
+@contextlib.asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Startup: ensure SQLite cache schema and tables are initialized
+    init_database()
+    logger.info("LokalScout Engine & SQLite persistent cache initialized.")
+    yield
+    logger.info("LokalScout Engine shutting down.")
+
 app = FastAPI(
     title=settings.PROJECT_NAME,
     version=settings.VERSION,
-    description="Hyperlocal Business Feasibility & Commercial Location Intelligence Platform"
+    description="Hyperlocal Business Feasibility & Commercial Location Intelligence Platform",
+    lifespan=lifespan
 )
 
 # CORS Middleware
@@ -28,6 +39,7 @@ app.include_router(feasibility.router, prefix=settings.API_PREFIX)
 app.include_router(compare.router, prefix=settings.API_PREFIX)
 app.include_router(payments.router, prefix=settings.API_PREFIX)
 app.include_router(watchdog.router, prefix=settings.API_PREFIX)
+app.include_router(crawler_admin.router, prefix=settings.API_PREFIX)
 
 @app.get("/")
 async def root():
