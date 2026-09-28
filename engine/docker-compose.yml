@@ -1,0 +1,44 @@
+services:
+  caddy:
+    image: caddy:2-alpine
+    container_name: lokalscout_caddy
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - api
+
+  api:
+    build: .
+    container_name: lokalscout_api
+    restart: always
+    environment:
+      - PORT=8000
+      - HOST=0.0.0.0
+      - ENVIRONMENT=production
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - GEMINI_MODEL=${GEMINI_MODEL:-gemini-2.5-flash}
+      - CASHFREE_APP_ID=${CASHFREE_APP_ID}
+      - CASHFREE_SECRET_KEY=${CASHFREE_SECRET_KEY}
+      - CASHFREE_API_VERSION=${CASHFREE_API_VERSION:-2023-08-01}
+      - CASHFREE_ENV=${CASHFREE_ENV:-sandbox}
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
+      - API_AUTH_SECRET=${API_AUTH_SECRET}
+    deploy:
+      resources:
+        limits:
+          memory: 2500M
+    volumes:
+      - reports_data:/data/reports
+    ports:
+      - "8000:8000"
+
+volumes:
+  caddy_data:
+  caddy_config:
+  reports_data:

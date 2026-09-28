@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>LokalScout Feasibility Dossier — {{ report.business_vertical }} | {{ report.location.locality }}</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;700;800&display=swap');
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background-color: #ffffff;
+      color: #0f172a;
+      line-height: 1.5;
+      padding: 40px;
+    }
+    
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid #0f172a;
+      padding-bottom: 24px;
+      margin-bottom: 32px;
+    }
+    
+    .logo-container h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 28px;
+      font-weight: 800;
+      color: #0f172a;
+      letter-spacing: -0.5px;
+    }
+    
+    .logo-container h1 span {
+      color: #059669;
+    }
+    
+    .logo-container p {
+      font-size: 13px;
+      color: #64748b;
+      margin-top: 2px;
+    }
+    
+    .badge-report {
+      background: #f1f5f9;
+      padding: 8px 16px;
+      border-radius: 8px;
+      text-align: right;
+    }
+    
+    .badge-report .id {
+      font-size: 12px;
+      font-weight: 700;
+      color: #0f172a;
+    }
+    
+    .badge-report .date {
+      font-size: 11px;
+      color: #64748b;
+    }
+    
+    .title-banner {
+      background: #0f172a;
+      color: #ffffff;
+      padding: 24px 32px;
+      border-radius: 12px;
+      margin-bottom: 32px;
+    }
+    
+    .title-banner h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+    }
+    
+    .title-banner .sub {
+      color: #94a3b8;
+      font-size: 14px;
+      margin-top: 4px;
+    }
+    
+    .scorecard-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+    
+    .card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 18px;
+    }
+    
+    .card .label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #64748b;
+    }
+    
+    .card .val {
+      font-size: 24px;
+      font-weight: 800;
+      color: #0f172a;
+      margin-top: 6px;
+    }
+    
+    .card.score {
+      background: #ecfdf5;
+      border-color: #a7f3d0;
+    }
+    
+    .card.score .val {
+      color: #059669;
+    }
+    
+    .section-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: #0f172a;
+      margin-top: 28px;
+      margin-bottom: 14px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    
+    .verdict-box {
+      background: #f0fdf4;
+      border-left: 4px solid #10b981;
+      padding: 16px 20px;
+      border-radius: 4px;
+      font-size: 14px;
+      color: #166534;
+      margin-bottom: 24px;
+      line-height: 1.6;
+    }
+    
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 24px;
+      font-size: 13px;
+    }
+    
+    table th {
+      background: #f1f5f9;
+      text-align: left;
+      padding: 10px 12px;
+      font-weight: 600;
+      color: #334155;
+    }
+    
+    table td {
+      padding: 10px 12px;
+      border-bottom: 1px solid #e2e8f0;
+      color: #1e293b;
+    }
+    
+    .tag {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      background: #e2e8f0;
+      color: #475569;
+    }
+    
+    .tag.premium { background: #fef3c7; color: #92400e; }
+    .tag.mid { background: #e0f2fe; color: #0369a1; }
+    .tag.budget { background: #f1f5f9; color: #475569; }
+    
+    .financials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    
+    .footer {
+      margin-top: 48px;
+      padding-top: 24px;
+      border-top: 1px solid #e2e8f0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: #64748b;
+    }
+    
+    .growlokal-banner {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      color: #ffffff;
+      padding: 20px 24px;
+      border-radius: 10px;
+      margin-top: 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .growlokal-banner h3 {
+      font-size: 16px;
+      font-weight: 700;
+      color: #34d399;
+    }
+    
+    .growlokal-banner p {
+      font-size: 12px;
+      color: #94a3b8;
+      margin-top: 4px;
+    }
+    
+    .promo-code {
+      background: rgba(255,255,255,0.1);
+      border: 1px dashed #34d399;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-family: monospace;
+      font-size: 14px;
+      font-weight: 700;
+      color: #34d399;
+    }
+    
+    @media print {
+      body { padding: 0; }
+      .page-break { page-break-after: always; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="logo-container">
+      <h1>Lokal<span>Scout</span></h1>
+      <p>Hyperlocal Feasibility & Location Intelligence Engine • Powered by GrowLokal</p>
+    </div>
+    <div class="badge-report">
+      <div class="id">REPORT #{{ report.report_id }}</div>
+      <div class="date">{{ report.generated_at }}</div>
+    </div>
+  </div>
+
+  <div class="title-banner">
+    <h2>{{ report.business_vertical }}</h2>
+    <div class="sub">{{ report.location.formatted_address }}</div>
+  </div>
+
+  <div class="scorecard-grid">
+    <div class="card score">
+      <div class="label">Feasibility Score</div>
+      <div class="val">{{ report.overall_score }}/100</div>
+    </div>
+    <div class="card">
+      <div class="label">Viability Status</div>
+      <div class="val" style="font-size: 16px;">{{ report.viability_status }}</div>
+    </div>
+    <div class="card">
+      <div class="label">Risk Level</div>
+      <div class="val" style="font-size: 18px;">{{ report.risk_rating }}</div>
+    </div>
+    <div class="card">
+      <div class="label">Competitors (2 km)</div>
+      <div class="val">{{ report.competitor_analysis.total_competitors_2km }}</div>
+    </div>
+  </div>
+
+  <div class="verdict-box">
+    <strong>Executive Verdict:</strong> {{ report.executive_verdict }}
+  </div>
+
+  <h3 class="section-title">1. Direct Competitor Landscape (Top 5 within 2 km)</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Business Name</th>
+        <th>Rating & Reviews</th>
+        <th>Distance</th>
+        <th>Price Tier</th>
+        <th>Top Weakness / Complaint</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for comp in report.competitor_analysis.top_competitors %}
+      <tr>
+        <td><strong>{{ comp.name }}</strong></td>
+        <td>★ {{ comp.rating }} ({{ comp.reviews_count }} reviews)</td>
+        <td>{{ comp.distance_km }} km</td>
+        <td>
+          <span class="tag {{ comp.price_tier.lower() }}">{{ comp.price_tier }}</span>
+        </td>
+        <td style="color: #b91c1c;">{{ comp.common_complaints[0] if comp.common_complaints else 'N/A' }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <h3 class="section-title">2. Footfall & Demand Anchors</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Anchor Entity</th>
+        <th>Category</th>
+        <th>Distance</th>
+        <th>Footfall Impact</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for anchor in report.demand_anchors.anchors %}
+      <tr>
+        <td><strong>{{ anchor.name }}</strong></td>
+        <td>{{ anchor.category }}</td>
+        <td>{{ anchor.distance_km }} km</td>
+        <td><strong>{{ anchor.impact_level }}</strong></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <div class="page-break"></div>
+
+  <h3 class="section-title">3. Commercial Real Estate Benchmarks (INR / Month)</h3>
+  <div class="financials-grid">
+    <div class="card">
+      <div class="label">Main Road Rent / sq.ft</div>
+      <div class="val">₹{{ report.real_estate.main_road_rent_sqft_monthly }}</div>
+    </div>
+    <div class="card">
+      <div class="label">Inner Lane Rent / sq.ft</div>
+      <div class="val">₹{{ report.real_estate.inner_lane_rent_sqft_monthly }}</div>
+    </div>
+    <div class="card">
+      <div class="label">Security Deposit</div>
+      <div class="val">{{ report.real_estate.security_deposit_months }} Months</div>
+    </div>
+  </div>
+
+  <h3 class="section-title">4. Financial Break-Even & Unit Economics</h3>
+  <div class="financials-grid">
+    <div class="card">
+      <div class="label">Est. Setup Capex</div>
+      <div class="val">₹{{ "{:,}".format(report.break_even.estimated_capex) }}</div>
+    </div>
+    <div class="card">
+      <div class="label">Break-Even Daily Orders</div>
+      <div class="val" style="color: #059669;">{{ report.break_even.required_daily_customers }} Orders / day</div>
+    </div>
+    <div class="card">
+      <div class="label">Monthly Break-Even Rev</div>
+      <div class="val">₹{{ "{:,}".format(report.break_even.monthly_breakeven_revenue) }}</div>
+    </div>
+  </div>
+
+  <h3 class="section-title">5. Strategic Gaps & Unfair Advantages</h3>
+  {% for gap in report.strategic_gaps %}
+  <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 14px 18px; margin-bottom: 12px;">
+    <h4 style="font-size: 14px; font-weight: 700; color: #0f172a;">{{ gap.opportunity_title }}</h4>
+    <p style="font-size: 13px; color: #475569; margin-top: 4px;">{{ gap.description }}</p>
+    <div style="font-size: 12px; color: #059669; font-weight: 600; margin-top: 6px;">Why it works: {{ gap.why_it_works }}</div>
+  </div>
+  {% endfor %}
+
+  <div class="growlokal-banner">
+    <div>
+      <h3>Opening Soon in {{ report.location.locality }}? Claim Your GrowLokal Credit</h3>
+      <p>Set up your Google Maps 3-Pack, VIP launch landing page, and automated WhatsApp reviews before opening day.</p>
+    </div>
+    <div class="promo-code">
+      {{ report.launch_action_plan.growlokal_offer_code }}
+    </div>
+  </div>
+
+  <div class="footer">
+    <div>© 2026 LokalScout (`lokalscout.in`) • Confirmed Commercial Feasibility Intelligence</div>
+    <div>Strictly Confidential • Generated for Registered Licensee</div>
+  </div>
+
+</body>
+</html>
