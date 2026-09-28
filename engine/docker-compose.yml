@@ -28,12 +28,15 @@ services:
       - CASHFREE_API_VERSION=${CASHFREE_API_VERSION:-2023-08-01}
       - CASHFREE_ENV=${CASHFREE_ENV:-sandbox}
       - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
+      - GOOGLE_PLACES_API_KEY=${GOOGLE_PLACES_API_KEY}
+      - LOKALSCOUT_DB_PATH=/app/data/lokalscout_cache.db
       - API_AUTH_SECRET=${API_AUTH_SECRET}
     deploy:
       resources:
         limits:
           memory: 2500M
     volumes:
+      - ./data:/app/data
       - reports_data:/data/reports
     ports:
       - "8000:8000"
