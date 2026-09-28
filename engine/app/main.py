@@ -2,7 +2,7 @@ import logging
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from .config import settings
-from .routers import search, feasibility, compare, payments
+from .routers import search, feasibility, compare, payments, watchdog
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(name)s: %(message)s")
 logger = logging.getLogger("lokalscout")
@@ -27,6 +27,7 @@ app.include_router(search.router, prefix=settings.API_PREFIX)
 app.include_router(feasibility.router, prefix=settings.API_PREFIX)
 app.include_router(compare.router, prefix=settings.API_PREFIX)
 app.include_router(payments.router, prefix=settings.API_PREFIX)
+app.include_router(watchdog.router, prefix=settings.API_PREFIX)
 
 @app.get("/")
 async def root():

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import Link from "next/link";
+import Script from "next/script";
 import { Compass, Sparkles, Building2, GitCompare, MessageSquare, PhoneCall } from "lucide-react";
 import { AuthProvider } from "@/context/AuthContext";
 import { GoogleAuthModal } from "@/components/GoogleAuthModal";
@@ -26,6 +27,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${plusJakarta.variable} h-full antialiased`}>
+      <head>
+        <Script src="https://accounts.google.com/gsi/client" strategy="afterInteractive" />
+      </head>
       <body className="min-h-full flex flex-col bg-[#f8fafc] text-slate-900 selection:bg-emerald-500 selection:text-white font-sans">
         <AuthProvider>
           {/* Top Announcement Bar */}

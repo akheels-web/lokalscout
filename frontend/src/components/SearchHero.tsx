@@ -2,17 +2,17 @@
 
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Search, MapPin, Terminal, ArrowRight, ShieldCheck } from "lucide-react";
+import { Search, MapPin, ArrowRight, ShieldCheck, Sparkles, Store } from "lucide-react";
 import { fetchLocations } from "@/lib/api";
 
 const CATEGORIES = [
-  { id: "Specialty Coffee Shop & Cafe", label: "Specialty Coffee Shop & Cafe", nic: "NIC 56101", capex: "₹25L–₹35L" },
-  { id: "Dental Clinic & Diagnostics", label: "Dental Clinic & Diagnostics", nic: "NIC 86201", capex: "₹28L–₹50L" },
-  { id: "Unisex Salon & Luxury Spa", label: "Unisex Salon & Luxury Spa", nic: "NIC 96020", capex: "₹22L–₹40L" },
-  { id: "Cloud Kitchen / QSR Hub", label: "Cloud Kitchen / QSR Delivery Hub", nic: "NIC 56210", capex: "₹12L–₹22L" },
-  { id: "Functional Gym & Fitness Studio", label: "Functional Gym & Fitness Studio", nic: "NIC 93110", capex: "₹35L–₹65L" },
-  { id: "Retail Pharmacy & Chemist", label: "Retail Pharmacy & Chemist", nic: "NIC 47721", capex: "₹15L–₹28L" },
-  { id: "Artisanal Bakery & Patisserie", label: "Artisanal Bakery & Patisserie", nic: "NIC 10712", capex: "₹18L–₹32L" },
+  { id: "Specialty Coffee Shop & Cafe", label: "Specialty Coffee & Cafe", icon: "☕", capex: "₹15L–₹35L Capex" },
+  { id: "Dental Clinic & Diagnostics", label: "Dental Clinic & Diagnostics", icon: "🦷", capex: "₹20L–₹50L Capex" },
+  { id: "Unisex Salon & Luxury Spa", label: "Unisex Salon & Spa", icon: "✂️", capex: "₹18L–₹40L Capex" },
+  { id: "Cloud Kitchen / QSR Hub", label: "Cloud Kitchen / QSR Hub", icon: "🍲", capex: "₹10L–₹25L Capex" },
+  { id: "Functional Gym & Fitness Studio", label: "Gym & Fitness Studio", icon: "🏋️", capex: "₹25L–₹60L Capex" },
+  { id: "Retail Pharmacy & Chemist", label: "Pharmacy & Chemist", icon: "💊", capex: "₹12L–₹30L Capex" },
+  { id: "Artisanal Bakery & Patisserie", label: "Bakery & Patisserie", icon: "🥐", capex: "₹15L–₹30L Capex" },
 ];
 
 export function SearchHero({ onSearch }: { onSearch?: (category: string, locality: string) => void }) {
@@ -57,38 +57,31 @@ export function SearchHero({ onSearch }: { onSearch?: (category: string, localit
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto font-mono">
+    <div className="w-full max-w-4xl mx-auto font-sans">
       <form
         onSubmit={handleSubmit}
-        className="bg-white border border-slate-200 rounded-2xl p-4 md:p-5 shadow-xl shadow-slate-200/50 space-y-4"
+        className="bg-white border border-slate-200/90 rounded-3xl p-5 md:p-6 shadow-2xl shadow-slate-200/70 space-y-4 transition-all"
       >
-        <div className="flex items-center justify-between text-[11px] text-slate-500 pb-2.5 border-b border-slate-100">
-          <span className="flex items-center gap-1.5 text-emerald-700 font-bold">
-            <Terminal className="h-3.5 w-3.5" />
-            ENTERPRISE QUERY CONSOLE
-          </span>
-          <span className="text-slate-500 font-mono">GIS ENGINE: NOMINATIM / OVERPASS v2.6</span>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-3 items-center">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-3.5 items-center">
           {/* Category Dropdown */}
           <div className="md:col-span-5 relative">
-            <label className="block text-[11px] uppercase tracking-wider text-slate-600 font-bold mb-1">
-              Industry Classification
+            <label className="block text-xs font-bold text-slate-700 mb-1.5 flex items-center gap-1.5">
+              <Store className="h-3.5 w-3.5 text-emerald-600" />
+              <span>What business are you opening?</span>
             </label>
             <div className="relative">
               <select
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
-                className="w-full bg-slate-50 text-slate-900 font-medium text-xs rounded-xl px-3.5 py-3 border border-slate-300 focus:outline-none focus:border-emerald-600 focus:bg-white appearance-none cursor-pointer"
+                className="w-full bg-slate-50 hover:bg-slate-100/70 text-slate-900 font-semibold text-sm rounded-2xl px-4 py-3.5 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 focus:bg-white appearance-none cursor-pointer transition-all"
               >
                 {CATEGORIES.map((cat) => (
-                  <option key={cat.id} value={cat.id} className="bg-white text-slate-900">
-                    [{cat.nic}] {cat.label} ({cat.capex})
+                  <option key={cat.id} value={cat.id} className="bg-white text-slate-900 font-normal">
+                    {cat.icon} {cat.label} ({cat.capex})
                   </option>
                 ))}
               </select>
-              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-slate-500 text-xs">
+              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-400 text-xs">
                 ▼
               </div>
             </div>
@@ -96,8 +89,9 @@ export function SearchHero({ onSearch }: { onSearch?: (category: string, localit
 
           {/* Locality Input */}
           <div className="md:col-span-4 relative">
-            <label className="block text-[11px] uppercase tracking-wider text-slate-600 font-bold mb-1">
-              Target Precinct or Pin Code
+            <label className="block text-xs font-bold text-slate-700 mb-1.5 flex items-center gap-1.5">
+              <MapPin className="h-3.5 w-3.5 text-emerald-600" />
+              <span>Where are you scouting?</span>
             </label>
             <div className="relative">
               <input
@@ -108,12 +102,12 @@ export function SearchHero({ onSearch }: { onSearch?: (category: string, localit
                   setShowSuggestions(true);
                 }}
                 onFocus={() => setShowSuggestions(true)}
-                placeholder="e.g. Madhapur or 500081"
-                className="w-full bg-slate-50 text-slate-900 font-medium text-xs rounded-xl px-3.5 py-3 border border-slate-300 focus:outline-none focus:border-emerald-600 focus:bg-white placeholder:text-slate-400"
+                placeholder="e.g. Madhapur, Indiranagar, 500081"
+                className="w-full bg-slate-50 hover:bg-slate-100/70 text-slate-900 font-semibold text-sm rounded-2xl px-4 py-3.5 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 focus:bg-white placeholder:text-slate-400 placeholder:font-normal transition-all"
               />
               {/* Autocomplete Dropdown */}
               {showSuggestions && suggestions.length > 0 && (
-                <div className="absolute left-0 right-0 top-full mt-1.5 bg-white border border-slate-200 rounded-xl shadow-2xl overflow-hidden z-50">
+                <div className="absolute left-0 right-0 top-full mt-2 bg-white border border-slate-200 rounded-2xl shadow-2xl overflow-hidden z-50">
                   {suggestions.map((s, idx) => (
                     <button
                       key={idx}
@@ -122,10 +116,10 @@ export function SearchHero({ onSearch }: { onSearch?: (category: string, localit
                         setLocalityQuery(`${s.locality}, ${s.city}`);
                         setShowSuggestions(false);
                       }}
-                      className="w-full text-left px-3.5 py-2.5 text-xs text-slate-800 hover:bg-emerald-50 hover:text-emerald-800 border-b border-slate-100 last:border-0 flex items-center justify-between"
+                      className="w-full text-left px-4 py-3 text-xs text-slate-800 hover:bg-emerald-50 hover:text-emerald-900 border-b border-slate-100 last:border-0 flex items-center justify-between transition-colors"
                     >
                       <span className="font-semibold">{s.label}</span>
-                      <span className="text-[10px] text-slate-500">PIN: {s.pincode}</span>
+                      <span className="text-[11px] text-slate-500 bg-slate-100 px-2 py-0.5 rounded-full">PIN {s.pincode}</span>
                     </button>
                   ))}
                 </div>
@@ -134,54 +128,54 @@ export function SearchHero({ onSearch }: { onSearch?: (category: string, localit
           </div>
 
           {/* Submit CTA */}
-          <div className="md:col-span-3 pt-4 md:pt-0">
+          <div className="md:col-span-3 pt-2 md:pt-6">
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full h-[46px] bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow-md shadow-emerald-600/20 flex items-center justify-center gap-2 transition-all cursor-pointer"
+              className="w-full h-[50px] bg-emerald-600 hover:bg-emerald-700 active:scale-[0.98] text-white font-bold text-sm rounded-2xl shadow-lg shadow-emerald-600/25 flex items-center justify-center gap-2 transition-all cursor-pointer"
             >
               {isLoading ? (
                 <span className="animate-pulse">Scouting Area...</span>
               ) : (
                 <>
-                  <span>Execute Feasibility Audit</span>
-                  <ArrowRight className="h-3.5 w-3.5" />
+                  <span>Audit Location</span>
+                  <ArrowRight className="h-4 w-4" />
                 </>
               )}
             </button>
           </div>
         </div>
 
-        <div className="flex flex-wrap items-center justify-between text-[11px] text-slate-500 pt-2 border-t border-slate-100">
-          <div className="flex items-center gap-2">
-            <span className="text-slate-600 font-semibold">Sample Precincts:</span>
+        {/* Popular Quick Select Chips */}
+        <div className="flex flex-wrap items-center justify-between text-xs text-slate-500 pt-3 border-t border-slate-100 gap-2">
+          <div className="flex flex-wrap items-center gap-1.5">
+            <span className="text-slate-500 font-medium">Quick Examples:</span>
             <button
               type="button"
               onClick={() => handleSelectQuick("Specialty Coffee Shop & Cafe", "Madhapur, Hyderabad")}
-              className="text-emerald-700 hover:text-emerald-900 underline underline-offset-2 font-medium"
+              className="px-2.5 py-1 rounded-full bg-slate-100 hover:bg-emerald-50 text-slate-700 hover:text-emerald-800 font-semibold transition-colors"
             >
-              Madhapur Coffee
+              ☕ Madhapur, Hyd
             </button>
-            <span>•</span>
             <button
               type="button"
               onClick={() => handleSelectQuick("Dental Clinic & Diagnostics", "Indiranagar, Bengaluru")}
-              className="text-emerald-700 hover:text-emerald-900 underline underline-offset-2 font-medium"
+              className="px-2.5 py-1 rounded-full bg-slate-100 hover:bg-emerald-50 text-slate-700 hover:text-emerald-800 font-semibold transition-colors"
             >
-              Indiranagar Dental
+              🦷 Indiranagar, Blr
             </button>
-            <span>•</span>
             <button
               type="button"
               onClick={() => handleSelectQuick("Unisex Salon & Luxury Spa", "Bandra West, Mumbai")}
-              className="text-emerald-700 hover:text-emerald-900 underline underline-offset-2 font-medium"
+              className="px-2.5 py-1 rounded-full bg-slate-100 hover:bg-emerald-50 text-slate-700 hover:text-emerald-800 font-semibold transition-colors"
             >
-              Bandra Salon
+              ✂️ Bandra, Mum
             </button>
           </div>
-          <div className="flex items-center gap-1 text-slate-600">
-            <ShieldCheck className="h-3.5 w-3.5 text-emerald-600" />
-            <span>Cashfree PG Verified</span>
+
+          <div className="flex items-center gap-1 text-slate-600 text-xs font-medium">
+            <ShieldCheck className="h-4 w-4 text-emerald-600" />
+            <span>Instant 30-Sec Analysis</span>
           </div>
         </div>
       </form>

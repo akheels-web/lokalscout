@@ -9,9 +9,16 @@ from ..models.schemas import (
     LocationInfo,
 )
 from ..services.geocoding import resolve_location
-from ..services.overpass import extract_demand_anchors
+from ..services.overpass import extract_demand_anchors, calculate_isochrone_walkshed
 from ..services.scraper import analyze_competitor_density
-from ..services.financial_model import get_real_estate_benchmark, calculate_breakeven
+from ..services.financial_model import (
+    get_real_estate_benchmark,
+    calculate_breakeven,
+    calculate_dayparting_profile,
+    calculate_fitout_breakdown,
+    generate_google_sandbox_preview,
+    get_matched_commercial_properties,
+)
 from ..services.ai_synthesis import synthesize_executive_intelligence
 from ..services.pdf_generator import render_report_html, generate_pdf_bytes
 
@@ -36,6 +43,15 @@ async def execute_feasibility_pipeline(req: FeasibilityRequest, force_unlocked: 
     # 4. Calculate Real Estate & Break-Even Economics
     real_estate, v_profile = get_real_estate_benchmark(location.locality, req.category)
     break_even = calculate_breakeven(real_estate, v_profile)
+    
+    # 4b. Calculate Advanced Spatial & Growth Modules
+    walkshed = calculate_isochrone_walkshed(location.coordinates, location.locality, anchors.anchors)
+    dayparting = calculate_dayparting_profile(req.category)
+    fitout = calculate_fitout_breakdown(real_estate.typical_carpet_area_sqft, req.category)
+    sandbox = generate_google_sandbox_preview(req.category, location.locality)
+    matched_props = get_matched_commercial_properties(
+        location.locality, real_estate.typical_carpet_area_sqft, real_estate.monthly_rental_estimate_main_road
+    )
     
     # 5. Gemini Flash / Algorithmic Executive Intelligence Synthesis
     synthesis = await synthesize_executive_intelligence(
@@ -74,6 +90,11 @@ async def execute_feasibility_pipeline(req: FeasibilityRequest, force_unlocked: 
         break_even=break_even,
         strategic_gaps=synthesis["strategic_gaps"],
         launch_action_plan=synthesis["launch_action_plan"],
+        isochrone_walkshed=walkshed,
+        dayparting_profile=dayparting,
+        fitout_estimator=fitout,
+        google_sandbox=sandbox,
+        matched_properties=matched_props,
         is_unlocked=force_unlocked
     )
     

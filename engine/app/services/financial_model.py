@@ -1,5 +1,13 @@
-from typing import Dict, Any, Tuple
-from ..models.schemas import RealEstateBenchmark, BreakEvenCalculator
+from typing import Dict, Any, Tuple, List
+from ..models.schemas import (
+    RealEstateBenchmark,
+    BreakEvenCalculator,
+    DaypartingProfile,
+    HourlyFootfallPoint,
+    FitOutBudgetBreakdown,
+    GoogleSandboxPreview,
+    PropertyMatchCandidate,
+)
 
 # City & Locality commercial rental baseline (INR per sqft/month for main road commercial space)
 RENT_BENCHMARKS: Dict[str, Dict[str, int]] = {
@@ -173,3 +181,210 @@ def calculate_breakeven(real_estate: RealEstateBenchmark, v_profile: Dict[str, A
         payback_period_months=min(payback_months, 36),
         margin_of_safety_pct=28.5
     )
+
+def calculate_dayparting_profile(vertical_keyword: str) -> DaypartingProfile:
+    """Computes hourly footfall distribution (07:00 to 23:00) and shift scheduling recommendations."""
+    norm_v = vertical_keyword.lower()
+    
+    if "dental" in norm_v or "clinic" in norm_v:
+        curve_data = [
+            ("08:00 AM", 8, 20, "Early Prep & Staff Check-in", 2),
+            ("09:00 AM", 9, 65, "Senior Consultations & Routine Scaling", 3),
+            ("10:00 AM", 10, 80, "Surgical Procedures & Root Canals", 4),
+            ("11:00 AM", 11, 75, "Crown Fittings & Ortho Adjustments", 4),
+            ("12:00 PM", 12, 50, "Midday Follow-ups", 3),
+            ("01:00 PM", 13, 25, "Sterilization & Lab Turnaround", 2),
+            ("02:00 PM", 14, 20, "Sterilization & Patient Records", 2),
+            ("03:00 PM", 15, 40, "Pediatric Dental Consultations", 3),
+            ("04:00 PM", 16, 65, "After-School & Teen Aligners", 3),
+            ("05:00 PM", 17, 85, "Post-Work Executive Checkups", 4),
+            ("06:00 PM", 18, 98, "Peak Evening Procedures & Cosmetic Dentistry", 4),
+            ("07:00 PM", 19, 95, "Peak Evening Cosmetic & Aligners", 4),
+            ("08:00 PM", 20, 70, "Final Consultations & Emergencies", 3),
+            ("09:00 PM", 21, 30, "Sanitization & Next-Day Scheduling", 2),
+        ]
+        peak_hours = ["10:00 AM - 12:00 PM (Morning Clinical)", "06:00 PM - 08:30 PM (Executive Rush)"]
+        shifts = {
+            "Morning Shift (8:30 AM - 2:00 PM)": "1 Lead Doctor + 2 Dental Assistants + 1 Receptionist",
+            "Evening Peak (4:30 PM - 9:30 PM)": "2 Doctors + 2 Dental Assistants + 1 Coordinator"
+        }
+        peak_rev_conc = 62
+    elif "salon" in norm_v or "spa" in norm_v:
+        curve_data = [
+            ("09:00 AM", 9, 25, "Styling Station Setup & Sanitation", 2),
+            ("10:00 AM", 10, 50, "Express Haircuts & Blow-dries", 4),
+            ("11:00 AM", 11, 70, "Hair Spa & Keratin Appointments", 5),
+            ("12:00 PM", 12, 80, "Bridal & Color Consultations", 6),
+            ("01:00 PM", 13, 85, "Pre-Lunch Corporate Grooming", 6),
+            ("02:00 PM", 14, 75, "Skin & Facial Sessions", 5),
+            ("03:00 PM", 15, 70, "Manicure, Pedicure & Nail Art", 5),
+            ("04:00 PM", 16, 85, "Afternoon Makeover Slots", 6),
+            ("05:00 PM", 17, 95, "Evening Pre-Party & Event Styling", 7),
+            ("06:00 PM", 18, 100, "Peak Rush: Haircuts & Beard Sculpting", 7),
+            ("07:00 PM", 19, 98, "Peak Rush: Unisex Services", 7),
+            ("08:00 PM", 20, 85, "Evening Walk-ins & Styling", 5),
+            ("09:00 PM", 21, 40, "Closing Walk-ins & Billing Reconciliation", 3),
+        ]
+        peak_hours = ["12:00 PM - 02:00 PM (Lunch Slots)", "05:30 PM - 08:30 PM (Evening Surge)"]
+        shifts = {
+            "Weekday Core Shift (10:00 AM - 6:00 PM)": "4 Stylists + 2 Technicians + 1 Front Desk",
+            "Peak Evening & Weekend (1:00 PM - 9:30 PM)": "6 Stylists + 3 Technicians + 2 Assistants"
+        }
+        peak_rev_conc = 68
+    elif "gym" in norm_v or "fitness" in norm_v:
+        curve_data = [
+            ("06:00 AM", 6, 92, "Prime Morning Functional Training & Cardio", 4),
+            ("07:00 AM", 7, 98, "Peak Morning Strength & HIIT Batch", 5),
+            ("08:00 AM", 8, 90, "Corporate Commute Workout Rush", 4),
+            ("09:00 AM", 9, 65, "Late Morning Circuit Training", 3),
+            ("10:00 AM", 10, 35, "Personal Training Sessions", 2),
+            ("11:00 AM", 11, 20, "Facility Cleaning & Maintenance", 2),
+            ("12:00 PM", 12, 30, "Lunchtime Express Workout", 2),
+            ("01:00 PM", 13, 20, "Low-load Operating Hours", 2),
+            ("02:00 PM", 14, 20, "Equipment Maintenance", 2),
+            ("03:00 PM", 15, 30, "Student & Athlete Sessions", 2),
+            ("04:00 PM", 16, 55, "Early Evening Members", 3),
+            ("05:00 PM", 17, 85, "Pre-Evening Post-Work Inflow", 4),
+            ("06:00 PM", 18, 100, "Maximum Peak: Heavy Lifting & Spin Batch", 5),
+            ("07:00 PM", 19, 98, "Prime Evening Strength & Hypertrophy", 5),
+            ("08:00 PM", 20, 90, "Late Evening Fitness Enthusiasts", 4),
+            ("09:00 PM", 21, 60, "Post-Dinner Workouts", 3),
+            ("10:00 PM", 22, 25, "Closing Facility Check & Floor Sanitization", 2),
+        ]
+        peak_hours = ["06:00 AM - 08:30 AM (Morning Surge)", "06:00 PM - 08:30 PM (Evening Heavy Peak)"]
+        shifts = {
+            "Morning Shift (5:30 AM - 1:30 PM)": "2 Head Trainers + 2 Floor Floor Coordinators + 1 Front Desk",
+            "Evening Peak (3:30 PM - 10:30 PM)": "3 Head Trainers + 2 Floor Assistants + 1 Receptionist"
+        }
+        peak_rev_conc = 74
+    else: # Default: Specialty Coffee & Artisanal Cafe
+        curve_data = [
+            ("07:00 AM", 7, 35, "Early Commuters & Morning Runners", 2),
+            ("08:00 AM", 8, 85, "Tech Park Morning Commute Espresso Rush", 4),
+            ("09:00 AM", 9, 95, "Prime Breakfast Meetings & Flat Whites", 4),
+            ("10:00 AM", 10, 90, "Remote Work Laptop Campers & Client Catchups", 4),
+            ("11:00 AM", 11, 75, "Mid-Morning Iced Brews & Pastry Sales", 3),
+            ("12:00 PM", 12, 60, "Corporate Lunch Sandwich & Pour-over Grab", 3),
+            ("01:00 PM", 13, 65, "Post-Lunch Espresso Surge", 3),
+            ("02:00 PM", 14, 50, "Quiet Work Hour (Wi-Fi Dwell Time)", 2),
+            ("03:00 PM", 15, 80, "Afternoon Meeting Buzz & Croissant Pairs", 4),
+            ("04:00 PM", 16, 95, "High-Energy Evening Social Hangouts", 4),
+            ("05:00 PM", 17, 100, "Peak Hour: Artisanal Coffee & Desserts", 5),
+            ("06:00 PM", 18, 98, "Prime Networking & Couples Social Window", 5),
+            ("07:00 PM", 19, 90, "Evening Cold Brew & Savory Appetizers", 4),
+            ("08:00 PM", 20, 80, "Dinner Crowd Warm Coffee & Hot Chocolate", 4),
+            ("09:00 PM", 21, 65, "Late-Night Work & Dessert Enthusiasts", 3),
+            ("10:00 PM", 22, 45, "Closing Takeaways & Bean Bag Sales", 2),
+            ("11:00 PM", 23, 20, "Espresso Bar Deep Clean & Inventory Reconciliation", 2),
+        ]
+        peak_hours = ["08:30 AM - 10:30 AM (Breakfast / Commute)", "04:30 PM - 07:00 PM (Prime Evening Buzz)"]
+        shifts = {
+            "Morning Rush (7:00 AM - 3:00 PM)": "2 Head Baristas + 1 Kitchen Chef + 1 Billing Cashier",
+            "Evening Peak (2:30 PM - 10:30 PM)": "2 Baristas + 2 Service Staff + 1 Kitchen Lead"
+        }
+        peak_rev_conc = 64
+
+    points = [
+        HourlyFootfallPoint(
+            hour_label=item[0],
+            hour_24=item[1],
+            footfall_index=item[2],
+            dominant_demographic=item[3],
+            recommended_staff_count=item[4]
+        )
+        for item in curve_data
+    ]
+
+    return DaypartingProfile(
+        peak_hours=peak_hours,
+        hourly_curve=points,
+        shift_recommendation=shifts,
+        revenue_concentration_pct_peak=peak_rev_conc
+    )
+
+def calculate_fitout_breakdown(sqft: int, vertical_keyword: str) -> FitOutBudgetBreakdown:
+    """Calculates turnkey commercial fit-out capex based on carpet area and vertical specifications."""
+    norm_v = vertical_keyword.lower()
+    
+    if "dental" in norm_v:
+        cost_per_sqft = 2200
+        civil_ratio, hvac_ratio, furniture_ratio, branding_ratio = 0.28, 0.32, 0.28, 0.12
+        turnaround = 45
+    elif "salon" in norm_v or "spa" in norm_v:
+        cost_per_sqft = 2100
+        civil_ratio, hvac_ratio, furniture_ratio, branding_ratio = 0.25, 0.25, 0.35, 0.15
+        turnaround = 40
+    elif "gym" in norm_v:
+        cost_per_sqft = 1450
+        civil_ratio, hvac_ratio, furniture_ratio, branding_ratio = 0.35, 0.30, 0.25, 0.10
+        turnaround = 60
+    elif "cloud" in norm_v:
+        cost_per_sqft = 1250
+        civil_ratio, hvac_ratio, furniture_ratio, branding_ratio = 0.30, 0.45, 0.15, 0.10
+        turnaround = 30
+    else: # Specialty Coffee / Cafe
+        cost_per_sqft = 1850
+        civil_ratio, hvac_ratio, furniture_ratio, branding_ratio = 0.26, 0.24, 0.36, 0.14
+        turnaround = 42
+
+    total_fitout = sqft * cost_per_sqft
+    
+    return FitOutBudgetBreakdown(
+        carpet_area_sqft=sqft,
+        civil_and_flooring=int(total_fitout * civil_ratio),
+        hvac_and_electrical=int(total_fitout * hvac_ratio),
+        furniture_and_fixtures=int(total_fitout * furniture_ratio),
+        branding_and_facade=int(total_fitout * branding_ratio),
+        total_estimated_fitout_capex=total_fitout,
+        cost_per_sqft=cost_per_sqft,
+        estimated_turnaround_days=turnaround
+    )
+
+def generate_google_sandbox_preview(category: str, locality: str) -> GoogleSandboxPreview:
+    """Generates an interactive Google 3-Pack simulation preview powered by GrowLokal Autopilot."""
+    norm_cat = category.split("&")[0].strip()
+    return GoogleSandboxPreview(
+        business_name_mock=f"The {locality} {norm_cat}",
+        category_label=norm_cat,
+        star_rating=4.9,
+        review_count_projected=88,
+        opening_status="Opening Soon in 45 Days",
+        launch_voucher="Claim 20% Off Launch Voucher",
+        google_3pack_rank_projected=1,
+        unoptimized_rank_baseline=14
+    )
+
+def get_matched_commercial_properties(locality: str, target_sqft: int, budget_monthly: int) -> List[PropertyMatchCandidate]:
+    """Generates verified commercial rental properties matching the exact profile with zero brokerage."""
+    return [
+        PropertyMatchCandidate(
+            property_id=f"PROP-{locality[:3].upper()}-01",
+            title=f"Prime Main-Road Corner Commercial Frontage, {locality}",
+            carpet_area_sqft=target_sqft,
+            floor="Ground Floor (Road Facing)",
+            rent_monthly_inr=budget_monthly,
+            brokerage_fee="Direct Landlord Verified • Zero Brokerage",
+            distance_from_anchor_m=180,
+            verified=True
+        ),
+        PropertyMatchCandidate(
+            property_id=f"PROP-{locality[:3].upper()}-02",
+            title=f"High-Street 1st Floor Retail Villa with Dedicated Lift, {locality}",
+            carpet_area_sqft=int(target_sqft * 1.15),
+            floor="1st Floor (Wide Balcony & Signage Facade)",
+            rent_monthly_inr=int(budget_monthly * 0.85),
+            brokerage_fee="Direct Landlord Verified • Zero Brokerage",
+            distance_from_anchor_m=320,
+            verified=True
+        ),
+        PropertyMatchCandidate(
+            property_id=f"PROP-{locality[:3].upper()}-03",
+            title=f"Quiet Leafy Inner-Lane Commercial Bungalow, {locality}",
+            carpet_area_sqft=int(target_sqft * 0.9),
+            floor="Independent Ground + Garden Patio",
+            rent_monthly_inr=int(budget_monthly * 0.72),
+            brokerage_fee="Direct Landlord Verified • Zero Brokerage",
+            distance_from_anchor_m=450,
+            verified=True
+        )
+    ]

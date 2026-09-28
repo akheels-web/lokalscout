@@ -97,6 +97,103 @@ export interface LaunchActionPlan {
   growlokal_offer_details: string;
 }
 
+export interface WalkshedBarrier {
+  barrier_type: string;
+  description: string;
+  pedestrian_friction: string;
+}
+
+export interface IsochroneWalkshed {
+  five_min_walk_meters: number;
+  ten_min_walk_meters: number;
+  fifteen_min_walk_meters: number;
+  pedestrian_permeability_score: number;
+  barrier_warnings: WalkshedBarrier[];
+  catchment_pop_5min: number;
+  catchment_pop_10min: number;
+  footfall_retention_index: string;
+}
+
+export interface HourlyFootfallPoint {
+  hour_label: string;
+  hour_24: number;
+  footfall_index: number;
+  dominant_demographic: string;
+  recommended_staff_count: number;
+}
+
+export interface DaypartingProfile {
+  peak_hours: string[];
+  hourly_curve: HourlyFootfallPoint[];
+  shift_recommendation: Record<string, string>;
+  revenue_concentration_pct_peak: number;
+}
+
+export interface FitOutBudgetBreakdown {
+  carpet_area_sqft: number;
+  civil_and_flooring: number;
+  hvac_and_electrical: number;
+  furniture_and_fixtures: number;
+  branding_and_facade: number;
+  total_estimated_fitout_capex: number;
+  cost_per_sqft: number;
+  estimated_turnaround_days: number;
+}
+
+export interface GoogleSandboxPreview {
+  business_name_mock: string;
+  category_label: string;
+  star_rating: number;
+  review_count_projected: number;
+  opening_status: string;
+  launch_voucher: string;
+  google_3pack_rank_projected: number;
+  unoptimized_rank_baseline: number;
+}
+
+export interface PropertyMatchCandidate {
+  property_id: string;
+  title: string;
+  carpet_area_sqft: number;
+  floor: string;
+  rent_monthly_inr: number;
+  brokerage_fee: string;
+  distance_from_anchor_m: number;
+  verified: boolean;
+}
+
+export interface WatchdogAlert {
+  alert_id: string;
+  timestamp: string;
+  competitor_name: string;
+  distance_m: number;
+  event_type: string;
+  severity: string;
+  summary: string;
+  recommended_counter_move: string;
+}
+
+export interface WatchdogSubscriptionRequest {
+  email: string;
+  phone?: string;
+  locality: string;
+  pincode: string;
+  category: string;
+  notification_channel?: string;
+}
+
+export interface WatchdogSubscriptionResponse {
+  subscription_id: string;
+  status: string;
+  pincode: string;
+  locality: string;
+  category: string;
+  monitored_radius_km: number;
+  active_alerts_count: number;
+  latest_alerts: WatchdogAlert[];
+  next_audit_date: string;
+}
+
 export interface FeasibilityReport {
   report_id: string;
   business_vertical: string;
@@ -121,6 +218,11 @@ export interface FeasibilityReport {
   break_even: BreakEvenCalculator;
   strategic_gaps: StrategicGap[];
   launch_action_plan: LaunchActionPlan;
+  isochrone_walkshed?: IsochroneWalkshed;
+  dayparting_profile?: DaypartingProfile;
+  fitout_estimator?: FitOutBudgetBreakdown;
+  google_sandbox?: GoogleSandboxPreview;
+  matched_properties?: PropertyMatchCandidate[];
   is_unlocked: boolean;
 }
 

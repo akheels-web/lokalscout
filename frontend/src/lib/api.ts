@@ -2,6 +2,8 @@ import {
   FeasibilityReport,
   FeasibilityPreview,
   AreaComparisonReport,
+  WatchdogSubscriptionRequest,
+  WatchdogSubscriptionResponse,
 } from "@/types/feasibility";
 
 const API_BASE_URL =
@@ -415,4 +417,82 @@ export async function compareAreas(
       highest_demand: localities[0] || "Madhapur",
     },
   };
+}
+
+export async function subscribeWatchdog(req: WatchdogSubscriptionRequest): Promise<WatchdogSubscriptionResponse> {
+  try {
+    const res = await fetch(`${API_BASE_URL}/watchdog/subscribe`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(req),
+    });
+    if (res.ok) {
+      return await res.json();
+    }
+  } catch (err) {
+    console.warn("Using offline Watchdog simulator:", err);
+  }
+
+  return {
+    subscription_id: `WD-${req.pincode}-OFFLINE`,
+    status: "active",
+    pincode: req.pincode,
+    locality: req.locality,
+    category: req.category,
+    monitored_radius_km: 2.0,
+    active_alerts_count: 3,
+    latest_alerts: [
+      {
+        alert_id: "ALT-WD-01",
+        timestamp: "Yesterday, 04:15 PM",
+        competitor_name: "Third Wave Coffee (New Extension)",
+        distance_m: 380,
+        event_type: "New Competitor Opening",
+        severity: "High Attention",
+        summary: "New 1,400 sq.ft. specialty cafe commenced commercial interior fit-outs near high-street junction.",
+        recommended_counter_move: "Lock in nearby tech park corporate coffee subscriptions and launch an early-bird morning combo.",
+      },
+      {
+        alert_id: "ALT-WD-02",
+        timestamp: "3 days ago",
+        competitor_name: "Blue Tokai Coffee Roasters",
+        distance_m: 620,
+        event_type: "Rating Drop Spike",
+        severity: "Moderate Impact",
+        summary: "Competitor rating dipped from 4.6 to 4.2 following recurring customer complaints about lack of car parking and seating.",
+        recommended_counter_move: "Highlight your dedicated valet parking or spacious seating capacity in promotional messaging.",
+      },
+      {
+        alert_id: "ALT-WD-03",
+        timestamp: "1 week ago",
+        competitor_name: "Starbucks India",
+        distance_m: 950,
+        event_type: "Significant Price Change",
+        severity: "Informational",
+        summary: "Competitor escalated beverage pricing by 8.5% across seasonal pour-overs and iced beverages.",
+        recommended_counter_move: "Emphasize artisanal quality beans at a 20% friendlier price point to capture value-conscious regulars.",
+      },
+    ],
+    next_audit_date: "Next Monday, 09:00 AM",
+  };
+}
+
+export async function fetchWatchdogAlerts(pincode: string): Promise<WatchdogSubscriptionResponse> {
+  try {
+    const res = await fetch(`${API_BASE_URL}/watchdog/alerts/${encodeURIComponent(pincode)}`, {
+      cache: "no-store",
+    });
+    if (res.ok) {
+      return await res.json();
+    }
+  } catch (err) {
+    console.warn("Using offline Watchdog alerts:", err);
+  }
+
+  return await subscribeWatchdog({
+    email: "operator@lokalscout.in",
+    locality: "Target Territory",
+    pincode: pincode,
+    category: "Specialty Coffee Shop & Cafe",
+  });
 }

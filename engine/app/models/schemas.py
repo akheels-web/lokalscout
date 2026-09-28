@@ -100,6 +100,93 @@ class StrategicGap(BaseModel):
     description: str
     why_it_works: str
 
+class WalkshedBarrier(BaseModel):
+    barrier_type: str  # "Divided Expressway", "Metro Line Viaduct", "Railway Track", "Gated Township"
+    description: str
+    pedestrian_friction: str  # "High Friction", "Moderate Friction"
+
+class IsochroneWalkshed(BaseModel):
+    five_min_walk_meters: int  # e.g. 380 meters
+    ten_min_walk_meters: int   # e.g. 780 meters
+    fifteen_min_walk_meters: int # e.g. 1250 meters
+    pedestrian_permeability_score: int # 0 to 100
+    barrier_warnings: List[WalkshedBarrier]
+    catchment_pop_5min: int
+    catchment_pop_10min: int
+    footfall_retention_index: str # "Very High", "High", "Moderate"
+
+class HourlyFootfallPoint(BaseModel):
+    hour_label: str # "08:00 AM", "09:00 AM", etc.
+    hour_24: int    # 8, 9, ...
+    footfall_index: int # 0 to 100
+    dominant_demographic: str # "Tech Commuters", "Corporate Lunch", "Family Dinner", "Late-Night Delivery"
+    recommended_staff_count: int
+
+class DaypartingProfile(BaseModel):
+    peak_hours: List[str]
+    hourly_curve: List[HourlyFootfallPoint]
+    shift_recommendation: Dict[str, str]
+    revenue_concentration_pct_peak: int
+
+class FitOutBudgetBreakdown(BaseModel):
+    carpet_area_sqft: int
+    civil_and_flooring: int
+    hvac_and_electrical: int
+    furniture_and_fixtures: int
+    branding_and_facade: int
+    total_estimated_fitout_capex: int
+    cost_per_sqft: int
+    estimated_turnaround_days: int
+
+class GoogleSandboxPreview(BaseModel):
+    business_name_mock: str
+    category_label: str
+    star_rating: float = 4.9
+    review_count_projected: int = 94
+    opening_status: str = "Opening Soon in 45 Days"
+    launch_voucher: str = "Claim 20% Off Launch Pass"
+    google_3pack_rank_projected: int = 1
+    unoptimized_rank_baseline: int = 14
+
+class PropertyMatchCandidate(BaseModel):
+    property_id: str
+    title: str
+    carpet_area_sqft: int
+    floor: str
+    rent_monthly_inr: int
+    brokerage_fee: str = "Zero Brokerage (Direct Landlord)"
+    distance_from_anchor_m: int
+    verified: bool = True
+
+class WatchdogAlert(BaseModel):
+    alert_id: str
+    timestamp: str
+    competitor_name: str
+    distance_m: int
+    event_type: str # "New Competitor Opening", "Trade License Registered", "Significant Price Change", "Rating Drop Spike"
+    severity: str # "High Attention", "Moderate Impact", "Informational"
+    summary: str
+    recommended_counter_move: str
+
+class WatchdogSubscriptionRequest(BaseModel):
+    email: str
+    phone: Optional[str] = None
+    locality: str
+    pincode: str
+    category: str
+    notification_channel: str = "email_and_whatsapp"
+
+class WatchdogSubscriptionResponse(BaseModel):
+    subscription_id: str
+    status: str = "active"
+    pincode: str
+    locality: str
+    category: str
+    monitored_radius_km: float = 2.0
+    active_alerts_count: int
+    latest_alerts: List[WatchdogAlert]
+    next_audit_date: str
+
 class LaunchActionPlan(BaseModel):
     week_1_to_2: str
     week_3_to_4: str
@@ -148,6 +235,13 @@ class FeasibilityReport(BaseModel):
     
     # 10. The Launch Action Plan (GrowLokal Flywheel)
     launch_action_plan: LaunchActionPlan
+    
+    # Enhanced Modules (Walkshed, Dayparting, Fit-Out & Sandbox)
+    isochrone_walkshed: Optional[IsochroneWalkshed] = None
+    dayparting_profile: Optional[DaypartingProfile] = None
+    fitout_estimator: Optional[FitOutBudgetBreakdown] = None
+    google_sandbox: Optional[GoogleSandboxPreview] = None
+    matched_properties: Optional[List[PropertyMatchCandidate]] = None
     
     # Unlock state
     is_unlocked: bool = False
