@@ -193,8 +193,8 @@ function CompareContent() {
                     {/* Metrics Table */}
                     <div className="space-y-2 text-xs">
                       <div className="flex justify-between py-1.5 border-b border-slate-100">
-                        <span className="text-slate-500">Main Road Commercial Rent:</span>
-                        <span className="font-bold text-slate-900">₹{item.avg_rent_sqft} / sq.ft</span>
+                        <span className="text-slate-500">Approx Rent (Indicative)*:</span>
+                        <span className="font-bold text-slate-900">~₹{item.avg_rent_sqft} / sq.ft</span>
                       </div>
                       <div className="flex justify-between py-1.5 border-b border-slate-100">
                         <span className="text-slate-500">Competitors (2km):</span>
@@ -229,6 +229,14 @@ function CompareContent() {
                 </div>
               );
             })}
+          </div>
+
+          {/* Pricing Disclaimer Note */}
+          <div className="p-4 rounded-2xl bg-amber-50/80 border border-amber-200/80 text-[11px] text-amber-900 flex items-start gap-2.5 max-w-4xl mx-auto">
+            <span className="font-bold">⚠️ Note:</span>
+            <div className="leading-relaxed">
+              <strong>*Approximate Rent Notice:</strong> Commercial rent per sq.ft shown across compared areas represents neighbourhood market averages from recent listings. Actual rent varies by road frontage, floor level, building age, and negotiation with property owners. Always physically inspect the space and negotiate before signing lease agreements.
+            </div>
           </div>
         </div>
       )}

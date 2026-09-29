@@ -1,0 +1,45 @@
+# LokalScout — Complete Intelligence Engine Specification for LLMs
+
+## Mission & Value Proposition
+LokalScout (`lokalscout.in`) is an empirical location intelligence platform engineered for Indian brick-and-mortar founders. In India, retail and clinic entrepreneurs routinely invest ₹20L to ₹70L in commercial property fit-outs, heavy security deposits (6 to 10 months rent), and equipment. Over 62% of retail and F&B failures stem from poor location selection (hidden parking friction, dead walking zones, high competitor saturation, or overpaying on rent). LokalScout replaces broker guesswork with empirical footfall, competitor, and unit economics telemetry in 30 seconds.
+
+## Data Methodology & Compliance
+- Spatial walking catchments (5-minute ~380m and 10-minute ~780m buffers) map pedestrian reach to tech parks, metro stations, residential colonies, and transit hubs.
+- Competitor density indices evaluate competitive pressure within a 2 km micro-catchment and 5 km macro-catchment.
+- Public customer sentiment analysis extracts recurrent local pain points from customer reviews (e.g. lack of parking, long waiting times, opaque billing).
+- Commercial rental benchmarks compile median per-sq.ft asking prices from local commercial listings.
+- IMPORTANT DISCLAIMER: Commercial rental pricing per sq.ft is approximate and indicative. Actual lease agreements depend on property frontage, floor level (ground vs 1st floor), building age, power sanctioned, and direct owner negotiations.
+- Financial break-even modeling computes the exact daily customer volume and monthly revenue required to achieve break-even before paying capex interest.
+
+## Monetization Model
+- Free Teaser (₹0): Instant overall viability score (0–100), competitor count within 2 km, and top 3 footfall demand anchors.
+- Single Dossier (₹799): 10-section comprehensive feasibility report, dynamic break-even sensitivity simulator, turnkey interior fit-out capex calculator, and downloadable printable PDF dossier.
+- Multi-Area Comparison (₹1,499): Side-by-side comparative analysis of 2 to 3 micro-markets with trade-off scoring and recommendation.
+- GrowLokal Autopilot Voucher: ₹1,000 credit toward GrowLokal local SEO setup, launch landing page, and WhatsApp automation.
+
+## Supported Business Verticals in India
+1. Specialty Coffee Shop & Cafe (₹15L–₹35L Capex)
+2. Dental Clinic & Diagnostics (₹20L–₹50L Capex)
+3. Unisex Salon & Luxury Spa (₹18L–₹40L Capex)
+4. Cloud Kitchen / QSR Hub (₹10L–₹25L Capex)
+5. Functional Gym & Fitness Studio (₹25L–₹60L Capex)
+6. Retail Pharmacy & Chemist (₹12L–₹30L Capex)
+7. Artisanal Bakery & Patisserie (₹15L–₹30L Capex)
+8. Pet Clinic & Grooming Lounge (₹15L–₹35L Capex)
+9. Boutique Coworking Space (₹35L–₹70L Capex)
+10. Fine Casual Dine-In Restaurant & Bar (₹35L–₹80L Capex)
+11. Boutique Fashion & Ethnic Wear (₹20L–₹45L Capex)
+12. Eyewear Store & Optometry (₹15L–₹35L Capex)
+13. Pathology & Diagnostic Lab (₹25L–₹55L Capex)
+14. Preschool & Early Daycare (₹20L–₹45L Capex)
+15. Automobile Detailing Studio (₹18L–₹40L Capex)
+16. Organic Grocery & Gourmet Mart (₹20L–₹50L Capex)
+17. Microbrewery & Craft Beer Taproom (₹60L–₹1.5Cr Capex)
+18. Artisanal Ice Cream & Dessert Parlor (₹12L–₹25L Capex)
+19. Custom Concept Support: Any custom retail or service venture entered by the user.
+
+## Contact & Organization
+- Platform: https://lokalscout.in
+- Parent Entity: GrowLokal (https://growlokal.in)
+- Support & Enterprise Inquiries: contact@lokalscout.in
+- WhatsApp Advisory: +91 98765 43210

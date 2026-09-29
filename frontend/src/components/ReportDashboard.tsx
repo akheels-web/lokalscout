@@ -607,30 +607,30 @@ export function ReportDashboard({
             {/* SECTION 7: Real Estate Benchmarks */}
             <div className="p-5 rounded-xl bg-white border border-slate-200 shadow-xs space-y-3 font-mono">
               <div className="flex items-center justify-between text-xs text-slate-500 uppercase font-bold">
-                <span>07. COMMERCIAL REAL ESTATE BENCHMARKS</span>
-                <span className="text-emerald-700">RERA &amp; BROKER DATA</span>
+                <span>07. COMMERCIAL RENT BENCHMARKS (APPROX)*</span>
+                <span className="text-emerald-700">INDICATIVE RANGE</span>
               </div>
 
               <div className="grid grid-cols-2 gap-3 text-xs">
                 <div className="p-3 rounded-lg bg-slate-50 border border-slate-200">
                   <div className="text-slate-500 text-[10px] font-bold">MAIN ROAD (FRONTAGE)</div>
                   <div className="text-xl font-bold text-slate-900 mt-1">
-                    ₹{report.real_estate.main_road_rent_sqft_monthly}
+                    ~₹{report.real_estate.main_road_rent_sqft_monthly}
                     <span className="text-xs text-slate-500 font-normal"> / sq.ft</span>
                   </div>
                   <div className="text-[10px] text-emerald-700 mt-1 font-semibold">
-                    Est. {formatINR(report.real_estate.monthly_rental_estimate_main_road)} /mo
+                    Est. ~{formatINR(report.real_estate.monthly_rental_estimate_main_road)} /mo
                   </div>
                 </div>
 
                 <div className="p-3 rounded-lg bg-slate-50 border border-slate-200">
                   <div className="text-slate-500 text-[10px] font-bold">INNER LANE / 1ST FLOOR</div>
                   <div className="text-xl font-bold text-slate-900 mt-1">
-                    ₹{report.real_estate.inner_lane_rent_sqft_monthly}
+                    ~₹{report.real_estate.inner_lane_rent_sqft_monthly}
                     <span className="text-xs text-slate-500 font-normal"> / sq.ft</span>
                   </div>
                   <div className="text-[10px] text-emerald-700 mt-1 font-semibold">
-                    Est. {formatINR(report.real_estate.monthly_rental_estimate_inner_lane)} /mo
+                    Est. ~{formatINR(report.real_estate.monthly_rental_estimate_inner_lane)} /mo
                   </div>
                 </div>
               </div>
@@ -639,6 +639,14 @@ export function ReportDashboard({
                 <span>Security Deposit Norm:</span>
                 <span className="font-bold text-slate-900">
                   {report.real_estate.security_deposit_months} Months Rent Advance
+                </span>
+              </div>
+
+              {/* Explicit Rent Accuracy Disclaimer */}
+              <div className="p-2.5 rounded-lg bg-amber-50/80 border border-amber-200/70 text-[10px] text-amber-900 flex items-start gap-1.5 font-sans leading-relaxed">
+                <AlertTriangle className="h-3.5 w-3.5 text-amber-700 shrink-0 mt-0.5" />
+                <span>
+                  <strong>*Approximate Rent Notice:</strong> Rates per sq.ft are indicative neighbourhood market averages. Actual shop rent varies by main-road frontage, floor level, carpet area efficiency, and negotiation with property owners. Always physically inspect the space and verify lease terms directly before signing lease agreements.
                 </span>
               </div>
             </div>
@@ -682,7 +690,7 @@ export function ReportDashboard({
                   Dynamic Break-Even Simulator
                 </h3>
                 <p className="text-xs text-slate-500 mt-0.5 font-sans">
-                  Adjust lease rent, staff payroll, or ticket size to model daily break-even thresholds.
+                  Calculate how many daily orders, appointments, or walk-in customers you need to cover rent, staff payroll, and operational expenses. Use the sliders below to test with your actual agreed shop rent.
                 </p>
               </div>
 
@@ -752,6 +760,14 @@ export function ReportDashboard({
                   onChange={(e) => setCustomPayroll(Number(e.target.value))}
                   className="w-full accent-emerald-600 cursor-pointer"
                 />
+              </div>
+            </div>
+
+            {/* Break-Even Simulator Pricing Note */}
+            <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 text-[11px] text-slate-600 flex items-start gap-2 font-sans">
+              <AlertTriangle className="h-4 w-4 text-slate-400 shrink-0 mt-0.5" />
+              <div className="leading-snug">
+                <strong>Planning Guidance:</strong> Default monthly rent is calculated from neighbourhood market benchmarks (~{formatINR(report.real_estate.monthly_rental_estimate_main_road)}). If your property owner quotes a higher or lower rent, simply adjust the <strong>Monthly Lease Rent</strong> slider above to recalculate your exact daily sales requirement.
               </div>
             </div>
 

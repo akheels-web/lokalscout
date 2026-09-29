@@ -200,6 +200,13 @@ export default function PricingPage() {
           </div>
 
           <div className="p-5 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-1.5">
+            <h4 className="font-bold text-slate-900 text-sm">Are commercial rental rates exact?</h4>
+            <p className="text-slate-600 leading-relaxed">
+              Rental rates per sq.ft shown in our reports are indicative neighbourhood market averages. Because commercial rent in India depends heavily on road frontage, floor level (ground floor vs upper floors), building age, and direct owner negotiations, we give you the fair benchmark range to negotiate effectively and avoid overpaying.
+            </p>
+          </div>
+
+          <div className="p-5 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-1.5">
             <h4 className="font-bold text-slate-900 text-sm">What is the GrowLokal Autopilot ₹1,000 credit?</h4>
             <p className="text-slate-600 leading-relaxed">
               If you proceed to open your business in the audited location within 60 days, you can apply your voucher code toward GrowLokal Autopilot to set up your Google Maps 3-Pack, VIP launch page, and automated WhatsApp reviews.

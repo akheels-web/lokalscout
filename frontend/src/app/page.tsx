@@ -52,23 +52,27 @@ export default function HomePage() {
   const faqs = [
     {
       q: "What exact service does LokalScout provide?",
-      a: "LokalScout is a commercial location feasibility intelligence engine. Before you sign a 3-year commercial lease and spend ₹20L–₹50L on interior fit-outs, we audit your exact street address. We calculate pedestrian foot-traffic from tech parks and residential clusters, analyze direct competitor ratings and customer complaints, benchmark fair market rents so you don't overpay, and calculate the exact daily sales you need to break even.",
+      a: "LokalScout is a location checking tool for Indian retail founders, doctors, clinic owners, and franchisees. Before you sign a 3-year commercial rental agreement and spend ₹20 Lakhs to ₹50 Lakhs on interior fit-outs and advance pagdi/deposit, we audit your exact shop address. We check walking customer footfall from nearby tech parks, colleges, and apartment societies, review direct competitor ratings and customer complaints, provide approximate market rents, and calculate how many daily sales or appointments you need to break even.",
     },
     {
-      q: "Why shouldn't I just rely on a commercial real estate broker?",
-      a: "Brokers earn a 1–2 month commission on signed leases, meaning their financial incentive is to close you on the highest possible rent as quickly as possible. They cannot provide empirical pedestrian footfall counts, competitor review sentiment, or mathematical break-even models. LokalScout provides 100% unbiased, objective location data so you can negotiate lower rent and avoid low-traffic dead zones.",
+      q: "Are the commercial rent per sq.ft figures 100% exact?",
+      a: "No, they are approximate indicative benchmarks based on recent commercial listings and neighbourhood averages. In India, actual shop rent differs significantly based on whether the space is main road-facing or in an inner lane, ground floor vs 1st floor, carpet-to-built-up area, power sanction, and your personal negotiation with the property owner. We provide this benchmark so you know the fair market range and avoid overpaying or accepting inflated broker quotes.",
+    },
+    {
+      q: "Why shouldn't I just take a commercial broker's word for it?",
+      a: "Real estate brokers earn a 1–2 month commission on signed deals, meaning their incentive is to close you on the highest possible rent as quickly as possible. Brokers cannot provide actual pedestrian footfall counts, competitor review sentiment, or daily break-even calculations. LokalScout gives you independent, unbiased location data so you can negotiate lower rent and avoid low-traffic dead lanes.",
     },
     {
       q: "Where does your footfall and competitor data come from?",
-      a: "We aggregate over 25 spatial signals including high-resolution pedestrian walking isochrones (5-min & 10-min catchments), verified micro-market competitor density, customer sentiment mined from public reviews, transit hubs, and actual commercial lease transactions across 120+ Indian micro-markets.",
+      a: "We analyze over 25 location signals including 5-minute and 10-minute pedestrian walking reach, verified local competitor directories, real customer complaints mined from public reviews, nearby metro and transit hubs, and commercial lease trends across 120+ Indian micro-markets.",
     },
     {
       q: "Can I use this feasibility report for bank loans or franchise approval?",
-      a: "Yes. Every ₹799 report includes an executive-ready, printable PDF dossier containing capex estimates, unit-economics break-even math, competitor mapping, and catchment demographics. Hundreds of founders use it to secure MSME business loans and franchise approvals.",
+      a: "Yes. Every ₹799 report comes with an executive-ready, printable PDF dossier containing capex estimates, daily customer break-even math, competitor mapping, and catchment demographics. Hundreds of founders use it to secure MSME business loans and franchise brand approvals.",
     },
     {
-      q: "Which cities and areas in India do you cover?",
-      a: "We cover over 120 prime commercial micro-markets across Hyderabad (Madhapur, Gachibowli, Jubilee Hills), Bengaluru (Indiranagar, Koramangala, Whitefield), Mumbai (Bandra, Andheri, Lower Parel), Pune (Koregaon Park, Baner), Delhi-NCR (Gurgaon Cyber City, Connaught Place), Chennai, Kolkata, and Ahmedabad.",
+      q: "Which cities and localities in India do you cover?",
+      a: "We cover over 120 prime commercial hubs across Hyderabad (Madhapur, Gachibowli, Jubilee Hills, Kondapur), Bengaluru (Indiranagar, Koramangala, HSR Layout, Whitefield), Mumbai (Bandra West, Andheri West, Powai), Pune (Baner, Koregaon Park), Delhi-NCR (Gurgaon Cyber City, Connaught Place), Chennai, Kolkata, and Ahmedabad.",
     },
   ];
 
@@ -436,8 +440,8 @@ export default function HomePage() {
                 <span className="font-bold text-slate-900">24 in 2 km</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-slate-500">Fair Lease Rate:</span>
-                <span className="font-bold text-emerald-700">₹125 / sq.ft</span>
+                <span className="text-slate-500">Approx Rent (Indicative)*:</span>
+                <span className="font-bold text-emerald-700">~₹125 / sq.ft</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-slate-500">Daily Break-Even:</span>
@@ -476,8 +480,8 @@ export default function HomePage() {
                 <span className="font-bold text-slate-900">11 in 2 km</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-slate-500">Fair Lease Rate:</span>
-                <span className="font-bold text-emerald-700">₹210 / sq.ft</span>
+                <span className="text-slate-500">Approx Rent (Indicative)*:</span>
+                <span className="font-bold text-emerald-700">~₹210 / sq.ft</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-slate-500">Daily Break-Even:</span>
@@ -516,8 +520,8 @@ export default function HomePage() {
                 <span className="font-bold text-slate-900">29 in 2 km</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-slate-500">Fair Lease Rate:</span>
-                <span className="font-bold text-amber-800">₹380 / sq.ft</span>
+                <span className="text-slate-500">Approx Rent (Indicative)*:</span>
+                <span className="font-bold text-amber-800">~₹380 / sq.ft</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-slate-500">Daily Break-Even:</span>
@@ -530,6 +534,14 @@ export default function HomePage() {
               <ArrowRight className="h-4 w-4" />
             </div>
           </Link>
+        </div>
+
+        {/* Real Estate Pricing Disclaimer */}
+        <div className="mt-8 p-4 rounded-2xl bg-amber-50/80 border border-amber-200/80 text-[11px] text-amber-900 flex items-start gap-2.5 max-w-4xl mx-auto">
+          <AlertCircle className="h-4 w-4 text-amber-700 shrink-0 mt-0.5" />
+          <div className="leading-relaxed">
+            <strong>*Important Note on Commercial Rental Pricing:</strong> Commercial rent per sq.ft and monthly lease estimates shown above are indicative neighbourhood market benchmarks compiled from local listings. We do not commit to exact rental rates for specific individual shop units. Actual commercial rent depends on exact main-road frontage, ground floor vs upper floors, building age, carpet-to-super-builtup area, and direct negotiation with the landlord. Always physically inspect the premises before signing lease agreements.
+          </div>
         </div>
       </section>
 

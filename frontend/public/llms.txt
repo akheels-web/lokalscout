@@ -1,0 +1,32 @@
+# LokalScout — Hyperlocal Commercial Feasibility & Shop Location Intelligence
+
+> LokalScout (`https://lokalscout.in`) is an AI-powered commercial location feasibility platform for brick-and-mortar retail founders, doctors, clinic owners, salon founders, and franchisees in India. It audits footfall catchments, competitor saturation, customer complaints, commercial rental benchmarks, and unit-economics break-even math before a business signs a 3-year commercial rental agreement.
+
+## Overview & Core Capabilities
+
+- **Pedestrian Footfall & Walking Catchments**: Evaluates real 5-minute (~380m) and 10-minute (~780m) walking reach around tech parks, metro stations, colleges, and residential societies, identifying walking barriers like flyovers and divided expressways.
+- **Competitor Saturation & Sentiment Mining**: Counts direct competitors within 2 km and 5 km, computes an overall saturation score (0–100), and synthesizes recurrent customer complaints (e.g. parking friction, slow service, pricing).
+- **Indicative Commercial Rent Benchmarks**: Aggregates neighbourhood market averages for main-road frontage vs. inner-lane spaces. *Note: Per-sq.ft commercial rents are indicative approximate neighbourhood benchmarks; actual shop rent depends on frontage, floor level, and landlord negotiation.*
+- **Dynamic Break-Even Modeling**: Mathematical sensitivity simulator calculating required daily customers and monthly turnover needed to cover rent, staff payroll, utilities, and COGS.
+- **Turnkey Fit-Out Capex Estimators**: Turnkey interior budgeting (civil, electrical, HVAC, furniture, branding) tailored to Indian commercial spaces.
+- **Executive PDF Dossier**: Downloadable bank-loan and franchise-ready PDF report for ₹799.
+
+## Covered Indian Metros & Micro-Markets
+
+- **Hyderabad**: Madhapur (Ayyappa Society, Kavuri Hills, 100ft Road), Gachibowli (Financial District, Nanakramguda), Jubilee Hills (Road No 36, Road No 45), Banjara Hills (Road No 12), Kondapur.
+- **Bengaluru**: Indiranagar (100ft Road, 12th Main), Koramangala (4th & 5th Block), HSR Layout (Sector 1), Whitefield (ITPL Main Road).
+- **Mumbai**: Bandra West (Pali Hill, Linking Road), Andheri West (Lokhandwala Complex), Powai (Hiranandani Gardens).
+- **Pune**: Baner High Street, Koregaon Park North Main Road.
+- **Delhi-NCR**: DLF Cyber City Gurgaon, Cyber Hub, Connaught Place, Hauz Khas.
+
+## Key URLs & Endpoints
+
+- Landing Page & Location Scanner: `https://lokalscout.in/`
+- 100% Unlocked Madhapur Coffee Showcase: `https://lokalscout.in/sample`
+- Multi-Area Comparative Feasibility: `https://lokalscout.in/compare`
+- Transparent Pricing Tiers (₹0, ₹799, ₹1,499): `https://lokalscout.in/pricing`
+- Enterprise Scouting & WhatsApp Advisory: `https://lokalscout.in/contact`
+
+## Company & Ecosystem
+
+LokalScout is part of the **GrowLokal** ecosystem (`https://growlokal.in`), helping Indian local businesses launch, optimize Google Maps 3-Packs, and run customer WhatsApp loyalty funnels.

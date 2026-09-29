@@ -87,3 +87,17 @@ The platform operates on a split-cloud, cost-optimized, low-latency architecture
 - **Sub-Locality & Centroid Precision**: Scouting is not limited to macro-localities. Sub-markets (e.g. Ayyappa Society, Kavuri Hills, 100ft Road in Madhapur; Pali Hill in Bandra West; 12th Main in Indiranagar) are indexed.
 - **Physical GPS 1-Click Detection**: Browser GPS (`navigator.geolocation`) calls `GET /api/search/reverse?lat=...&lng=...` to reverse geocode physical coordinates into sub-localities on the fly, allowing founders physically auditing properties to audit the exact shopfront coordinates.
 
+---
+
+## 6. Indian English Copy, SEO & Commercial Rent Disclaimers
+
+- **Indian English Business Phrasing**: Copy must be simple and directly relatable for Indian entrepreneurs, doctors, salon founders, and franchisees. Avoid western/consulting jargon (replace "telemetry", "spatial catchment", "isochrone walkshed" with "walking customer footfall", "tech parks, colleges & apartment societies", "daily sales needed to break even", "3-year commercial rental agreement", and "advance pagdi/deposit").
+- **Commercial Rent Pricing Is Always Approximate**: Never commit to commercial rent per sq.ft as 100% exact. Always mark rental rates as indicative benchmarks (`~₹125 / sq.ft (Approx)*`) with a clear disclaimer notice explaining that rent varies by road frontage, floor level (ground vs upper floor), building age, carpet efficiency, and direct landlord negotiations.
+- **Complete SEO Suite**:
+  - Dynamic `sitemap.ts` (`/sitemap.xml`) indexing core pages and top Indian micro-markets.
+  - `robots.ts` (`/robots.txt`) with rules for search engines and LLM crawlers (`GPTBot`, `PerplexityBot`, `ClaudeBot`).
+  - `llms.txt` and `llms-full.txt` standards served under `/public/`.
+  - Schema.org JSON-LD structured data (`SoftwareApplication`, `Organization`, `ContactPoint`) embedded globally in `layout.tsx`.
+  - SEO-centric 5-column directory footer indexing Indian metros (Hyderabad, Bengaluru, Mumbai, Pune, Delhi-NCR), business verticals, feasibility tools, and WhatsApp advisory.
+
+
